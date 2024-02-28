@@ -9,6 +9,8 @@ function App() {
         <p>viewportHeight: {tg?.viewportHeight}</p>
         <p>viewportStableHeight: {tg?.viewportStableHeight}</p>
         <p>platform: {tg?.platform}</p>
+        <p>initDataUnsafe: {tg?.initDataUnsafe}</p>
+        <p>initDataUnsafe: {tg?.initDataUnsafe.user}</p>
     </>
   )
 }
