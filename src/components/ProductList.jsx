@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState,useCallback, useEffect} from 'react';
 import '../index.css';
 import ProductItem from "../components/ProductItem.jsx";
 import {useTelegram} from "../hooks/useTelegram.jsx";
-import {useCallback, useEffect} from "react";
 
 const products = [
     {id: '1', title: 'Джинсы', price: 5000, description: 'Синего цвета, прямые'},
