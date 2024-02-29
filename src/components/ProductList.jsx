@@ -31,7 +31,7 @@ const ProductList = () => {
             totalPrice: getTotalPrice(addedItems),
             queryId,
         }
-        fetch('http://localhost:8080/web-data', {
+        fetch('https://telegram-bot-nodejs-enhm.onrender.com/web-data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
