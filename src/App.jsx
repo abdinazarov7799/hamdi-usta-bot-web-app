@@ -5,6 +5,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import ProductList from "./components/ProductList.jsx";
 import Form from "./components/Form.jsx";
 import {Button, Flex, Layout, Typography} from "antd";
+import Map from "./components/Map.jsx";
 const { Title } = Typography;
 const { Header, Content } = Layout;
 
@@ -45,6 +46,7 @@ function App() {
                     <Routes>
                         <Route path={'/'} element={<ProductList />}/>
                         <Route path={'/form'} element={<Form />}/>
+                        <Route path={'/map'} element={<Map />}/>
                         <Route path={'*'} element={<ProductList />}/>
                     </Routes>
                 </BrowserRouter>
