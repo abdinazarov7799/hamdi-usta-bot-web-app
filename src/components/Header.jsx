@@ -1,7 +1,8 @@
 import React from 'react';
-import Button from "../components/Button.jsx";
 import {useTelegram} from "../hooks/useTelegram.jsx";
 import '../index.css';
+import {Button, Typography} from "antd";
+const { Title } = Typography;
 
 const Header = () => {
     const {user, onClose} = useTelegram();
@@ -9,9 +10,9 @@ const Header = () => {
     return (
         <div className={'header'}>
             <Button onClick={onClose}>Закрыть</Button>
-            <span className={'username'}>
+            <Title level={5}>
                 {user?.username}
-            </span>
+            </Title>
         </div>
     );
 };

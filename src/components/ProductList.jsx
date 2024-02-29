@@ -1,17 +1,19 @@
 import React, {useState,useCallback, useEffect} from 'react';
 import '../index.css';
-import ProductItem from "../components/ProductItem.jsx";
 import {useTelegram} from "../hooks/useTelegram.jsx";
+import {Button, Card, Space, Typography} from "antd";
+const { Text } = Typography;
 
 const products = [
-    {id: '1', title: 'Epica', price: 5000, description: 'Синего цвета'},
-    {id: '2', title: 'Куртка', price: 12000, description: 'Зеленого цвета, теплая'},
-    {id: '3', title: 'Джинсы 2', price: 5000, description: 'Синего цвета, прямые'},
-    {id: '4', title: 'Куртка 8', price: 122, description: 'Зеленого цвета, теплая'},
-    {id: '5', title: 'Джинсы 3', price: 5000, description: 'Синего цвета, прямые'},
-    {id: '6', title: 'Куртка 7', price: 600, description: 'Зеленого цвета, теплая'},
-    {id: '7', title: 'Джинсы 4', price: 5500, description: 'Синего цвета, прямые'},
-    {id: '8', title: 'Куртка 5', price: 12000, description: 'Зеленого цвета, теплая'},
+    {id: '1', title: 'Epica', price: 5000, description: 'AT 2.5', img: 'https://telegra.ph/file/68282be17d4f2592b594d.jpg'},
+    {id: '2', title: 'Epica 2', price: 7000, description: 'AT 2.5', img: 'https://telegra.ph/file/68282be17d4f2592b594d.jpg'},
+    {id: '3', title: 'Epica 3', price: 2000, description: 'AT 2.5', img: 'https://telegra.ph/file/68282be17d4f2592b594d.jpg'},
+    {id: '4', title: 'Epica 4', price: 6000, description: 'AT 2.5', img: 'https://telegra.ph/file/68282be17d4f2592b594d.jpg'},
+    {id: '5', title: 'Epica 5', price: 5000, description: 'AT 2.5', img: 'https://telegra.ph/file/68282be17d4f2592b594d.jpg'},
+    {id: '6', title: 'Epica 6', price: 5000, description: 'AT 2.5', img: 'https://telegra.ph/file/68282be17d4f2592b594d.jpg'},
+    {id: '7', title: 'Epica 7', price: 5000, description: 'AT 2.5', img: 'https://telegra.ph/file/68282be17d4f2592b594d.jpg'},
+    {id: '8', title: 'Epica 8', price: 5000, description: 'AT 2.5', img: 'https://telegra.ph/file/68282be17d4f2592b594d.jpg'},
+    {id: '9', title: 'Epica 9', price: 5000, description: 'AT 2.5', img: 'https://telegra.ph/file/68282be17d4f2592b594d.jpg'},
 ]
 
 const getTotalPrice = (items = []) => {
@@ -69,15 +71,37 @@ const ProductList = () => {
     }
 
     return (
-        <div className={'list'}>
+        <Space wrap>
             {products.map(item => (
-                <ProductItem
-                    product={item}
-                    onAdd={onAdd}
-                    className={'item'}
-                />
+                <Card
+                    hoverable
+                    title={item.title}
+                    style={{
+                        width: 180,
+                    }}
+                    cover={
+                        <img
+                            alt="img"
+                            src={item.img}
+                        />
+                    }
+                >
+                    <Space direction="vertical" size={"small"}>
+                        <Text>{item.description}</Text>
+                        <Text>
+                            <span>Narxi: <b>{item.price}</b></span>
+                        </Text>
+                        <Button
+                            onClick={() => onAdd(item)}
+                            type={"primary"}
+                            block
+                        >
+                            Savatga qo'shish
+                        </Button>
+                    </Space>
+                </Card>
             ))}
-        </div>
+        </Space>
     );
 };
 

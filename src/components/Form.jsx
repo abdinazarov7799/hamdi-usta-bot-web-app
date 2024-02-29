@@ -1,12 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import '../index.css';
 import {useTelegram} from "../hooks/useTelegram.jsx";
-
+import {Input, Select, Space, Typography} from "antd";
+const { Title } = Typography;
 const Form = () => {
     const [country, setCountry] = useState('');
     const [street, setStreet] = useState('');
     const [subject, setSubject] = useState('physical');
     const {tg} = useTelegram();
+
 
     const onSendData = useCallback(() => {
         const data = {
@@ -26,7 +28,7 @@ const Form = () => {
 
     useEffect(() => {
         tg.MainButton.setParams({
-            text: 'Отправить данные'
+            text: 'Malumotlarni yuborish'
         })
     }, [])
 
@@ -38,40 +40,34 @@ const Form = () => {
         }
     }, [country, street])
 
-    const onChangeCountry = (e) => {
-        setCountry(e.target.value)
-    }
-
-    const onChangeStreet = (e) => {
-        setStreet(e.target.value)
-    }
-
-    const onChangeSubject = (e) => {
-        setSubject(e.target.value)
-    }
-
     return (
-        <div className={"form"}>
-            <h3>Введите ваши данные</h3>
-            <input
-                className={'input'}
-                type="text"
-                placeholder={'Страна'}
+        <Space direction="vertical" size={"middle"}>
+            <Title level={3}>Malumotlaringizni kiriting</Title>
+            <Input
+                placeholder="Mamlakat"
                 value={country}
-                onChange={onChangeCountry}
+                onChange={(e) => setCountry(e.target.value)}
             />
-            <input
-                className={'input'}
-                type="text"
-                placeholder={'Улица'}
+            <Input
+                placeholder="Ko'cha"
                 value={street}
-                onChange={onChangeStreet}
+                onChange={(e) => setStreet(e.target.value)}
             />
-            <select value={subject} onChange={onChangeSubject} className={'select'}>
-                <option value={'physical'}>Физ. лицо</option>
-                <option value={'legal'}>Юр. лицо</option>
-            </select>
-        </div>
+            <Select
+                value={subject}
+                onChange={(value) => setSubject(value)}
+                options={[
+                    {
+                        value: 'physical',
+                        label: 'Jismoniy',
+                    },
+                    {
+                        value: 'legal',
+                        label: 'Yuridik',
+                    },
+                ]}
+            />
+        </Space>
     );
 };
 
