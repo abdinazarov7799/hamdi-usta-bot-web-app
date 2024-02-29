@@ -1,7 +1,7 @@
 import React, {useState,useCallback, useEffect} from 'react';
 import '../index.css';
 import {useTelegram} from "../hooks/useTelegram.jsx";
-import {Button, Card, Space, Typography} from "antd";
+import {Button, Card, Col, Row, Space, Typography} from "antd";
 const { Text } = Typography;
 
 const products = [
@@ -71,37 +71,37 @@ const ProductList = () => {
     }
 
     return (
-        <Space wrap>
+        <Row>
             {products.map(item => (
-                <Card
-                    hoverable
-                    title={item.title}
-                    style={{
-                        width: 180,
-                    }}
-                    cover={
-                        <img
-                            alt="img"
-                            src={item.img}
-                        />
-                    }
-                >
-                    <Space direction="vertical" size={"small"}>
-                        <Text>{item.description}</Text>
-                        <Text>
-                            <span>Narxi: <b>{item.price}</b></span>
-                        </Text>
-                        <Button
-                            onClick={() => onAdd(item)}
-                            type={"primary"}
-                            block
-                        >
-                            Savatga qo'shish
-                        </Button>
-                    </Space>
-                </Card>
+                <Col span={12} style={{padding: '10px'}}>
+                    <Card
+                        hoverable
+                        title={item.title}
+                        size={"small"}
+                        cover={
+                            <img
+                                alt="img"
+                                src={item.img}
+                            />
+                        }
+                    >
+                        <Space direction="vertical" size={"small"}>
+                            <Text>{item.description}</Text>
+                            <Text>
+                                <span>Narxi: <b>{item.price}</b></span>
+                            </Text>
+                            <Button
+                                onClick={() => onAdd(item)}
+                                type={"primary"}
+                                block
+                            >
+                                Savatga qo'shish
+                            </Button>
+                        </Space>
+                    </Card>
+                </Col>
             ))}
-        </Space>
+        </Row>
     );
 };
 
