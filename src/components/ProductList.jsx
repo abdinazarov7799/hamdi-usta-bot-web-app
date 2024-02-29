@@ -4,7 +4,7 @@ import ProductItem from "../components/ProductItem.jsx";
 import {useTelegram} from "../hooks/useTelegram.jsx";
 
 const products = [
-    {id: '1', title: 'Джинсы', price: 5000, description: 'Синего цвета, прямые'},
+    {id: '1', title: 'Epica', price: 5000, description: 'Синего цвета'},
     {id: '2', title: 'Куртка', price: 12000, description: 'Зеленого цвета, теплая'},
     {id: '3', title: 'Джинсы 2', price: 5000, description: 'Синего цвета, прямые'},
     {id: '4', title: 'Куртка 8', price: 122, description: 'Зеленого цвета, теплая'},
@@ -63,7 +63,7 @@ const ProductList = () => {
         } else {
             tg.MainButton.show();
             tg.MainButton.setParams({
-                text: `Купить ${getTotalPrice(newItems)}`
+                text: `Sotib olish ${getTotalPrice(newItems)}`
             })
         }
     }
