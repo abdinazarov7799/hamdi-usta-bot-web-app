@@ -2,12 +2,12 @@ import React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import {ConfigProvider, theme} from "antd";
 import {useTelegram} from "../hooks/useTelegram.jsx";
-import {get} from "lodash";
+import {get, isEqual} from "lodash";
 const { defaultAlgorithm, darkAlgorithm } = theme;
 const {tg} = useTelegram();
 
 const CustomTheme = {
-    algorithm: get(tg,'colorScheme',true) ? defaultAlgorithm : darkAlgorithm,
+    algorithm: isEqual(get(tg,'colorScheme','light'),'light') ? defaultAlgorithm : darkAlgorithm,
     fonts: {
         heading: `'Montserrat', sans-serif`,
         body: `'Montserrat', sans-serif`,
