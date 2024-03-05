@@ -2,10 +2,7 @@ import './App.css';
 import React, {useEffect} from "react";
 import {useTelegram} from "./hooks/useTelegram";
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
-import ProductList from "./components/ProductList.jsx";
-import Form from "./components/Form.jsx";
 import {Button, Flex, Layout, Typography} from "antd";
-import Map from "./components/Map.jsx";
 const { Title } = Typography;
 const { Header, Content } = Layout;
 
@@ -30,7 +27,7 @@ function App() {
     useEffect(() => {
         tg.ready();
     }, [])
-
+    console.log(user,'user')
     return (
         <Layout>
             <Header style={headerStyle}>
@@ -42,14 +39,7 @@ function App() {
             </Flex>
             </Header>
             <Content style={contentStyle}>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path={'/'} element={<ProductList />}/>
-                        <Route path={'/form'} element={<Form />}/>
-                        <Route path={'/map'} element={<Map />}/>
-                        <Route path={'*'} element={<ProductList />}/>
-                    </Routes>
-                </BrowserRouter>
+
             </Content>
         </Layout>
     );
