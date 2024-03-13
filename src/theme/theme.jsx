@@ -26,6 +26,7 @@ const GlobalStyles = createGlobalStyle`
   }
   body {
       overflow-x: hidden;
+      max-width: 560px;
   }
 `
 const Theme = ({ children }) => {

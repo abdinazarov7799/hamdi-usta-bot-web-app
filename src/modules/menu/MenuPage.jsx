@@ -9,7 +9,7 @@ const MenuPage = () => {
     useEffect(() => {
         tg.ready();
     }, [])
-
+    console.log(tg,'tg')
     const mockCategory = [
         {label: 'category1', imgUrl: 'https://telegra.ph/file/ec81ee0eed6d1341b5c3c.jpg'},
         {label: 'category2', imgUrl: 'https://telegra.ph/file/ec81ee0eed6d1341b5c3c.jpg'},
@@ -23,8 +23,8 @@ const MenuPage = () => {
             <Row>
                 {
                     mockCategory.map((item,index) => (
-                        <Col key={index+1} span={8} style={{padding: 7}}>
-                            <Card style={{textAlign: "center"}}>
+                        <Col span={8} style={{padding: 7}}>
+                            <Card style={{textAlign: "center"}} key={index+1}>
                                 <Skeleton.Avatar loading={isLoading} avatar active size={"large"}>
                                     <Avatar src={item.imgUrl} size={"large"} />
                                 </Skeleton.Avatar>
