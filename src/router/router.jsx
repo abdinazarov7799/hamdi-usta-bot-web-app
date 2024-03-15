@@ -1,12 +1,7 @@
 import React, {Suspense} from "react";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import {Spin} from "antd";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Loader from "../components/Loader.jsx";
-import MenuPage from "../modules/menu/MenuPage.jsx";
-
-// PAGES
-// PAGES
-
+import HomePage from "../modules/Home/HomePage.jsx";
 
 const Router = ({ ...rest }) => {
   return (
@@ -16,7 +11,7 @@ const Router = ({ ...rest }) => {
           <Route
               path={"/"}
               index
-              element={<MenuPage />}
+              element={<HomePage />}
           />
         </Routes>
       </Suspense>

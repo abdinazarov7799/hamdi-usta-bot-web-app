@@ -1,9 +1,13 @@
 import axios from "axios";
-import config from "../../config";
+import config from "../../config.js";
+import {useTelegram} from "../../hooks/useTelegram.jsx";
+import {get} from "lodash";
 
+const {user} = useTelegram()
 const request = axios.create({
   baseURL: config.API_ROOT,
-  params: {},
+  params: {user_id: get(user,'id')},
+  // params: {user_id: "926834986"},
 });
 
 export { request };

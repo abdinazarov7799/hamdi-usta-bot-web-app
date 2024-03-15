@@ -1,13 +1,14 @@
 import React from 'react';
 import {useMutation, useQueryClient} from 'react-query'
 import {request} from "../../services/api";
-import {toast} from "react-toastify";
 import {useTranslation} from "react-i18next";
+import {notification} from "antd";
+import {get} from "lodash";
 
 const postRequest = (url, attributes, config = {}) => request.post(url, attributes, config);
 
 const  usePostQuery = ({hideSuccessToast = false, listKeyId = null}) => {
-    const {t} = useTranslation();
+        const {t} = useTranslation();
 
         const queryClient = useQueryClient();
 
@@ -20,7 +21,8 @@ const  usePostQuery = ({hideSuccessToast = false, listKeyId = null}) => {
             {
                 onSuccess: (data) => {
                     if (!hideSuccessToast) {
-                        toast.success(t(data?.data?.message || 'SUCCESS'))
+                        notification.success({message: t(data?.data?.message || 'SUCCESS')
+                        })
                     }
 
                     if (listKeyId) {
@@ -28,7 +30,9 @@ const  usePostQuery = ({hideSuccessToast = false, listKeyId = null}) => {
                     }
                 },
                 onError: (data) => {
-                    toast.error(t(data?.response?.data?.message || 'ERROR'))
+                    get(data,'response.data.errors',[]).map((err) => (
+                        notification.error({message: t(get(err,'errorMsg') || 'ERROR')})
+                    ))
                 }
             }
         );
