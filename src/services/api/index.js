@@ -6,8 +6,7 @@ import {get} from "lodash";
 const {user} = useTelegram()
 const request = axios.create({
   baseURL: config.API_ROOT,
-  params: {user_id: get(user,'id')},
-  // params: {user_id: "926834986"},
+  params: {user_id: get(user,'id','926834986')},
 });
 
 export { request };

@@ -9,7 +9,7 @@ const Router = ({ ...rest }) => {
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route
-              path={"/"}
+              path={"/:lang"}
               index
               element={<HomePage />}
           />
