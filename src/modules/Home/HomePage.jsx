@@ -13,9 +13,9 @@ const HomePage = () => {
     const {tg} = useTelegram();
     const {t} = useTranslation();
     const [checked, setChecked] = useState();
-    useEffect(() => {
-        tg.ready();
-    }, [])
+    // useEffect(() => {
+    //     tg.ready();
+    // }, [])
     const {data:categoriesData,isLoading:categoriesIsLoading} = useGetAllQuery({
         key: KEYS.category_list,
         url: URLS.category_list
