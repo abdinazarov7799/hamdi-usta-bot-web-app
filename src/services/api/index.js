@@ -9,5 +9,5 @@ const request = axios.create({
   params: {user_id: get(user,'id','926834986')},
 });
 console.log(user,'user id')
-console.log(tg.initDataUnsafe,'initDataUnsafe')
+console.log(tg,'tg')
 export { request };
