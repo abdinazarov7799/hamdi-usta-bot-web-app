@@ -7,15 +7,12 @@ import {KEYS} from "../../constants/key.js";
 import {URLS} from "../../constants/url.js";
 import {get, isEqual} from "lodash";
 import {useTranslation} from "react-i18next";
+import ProductContainer from "./components/ProductContainer.jsx";
 const {Text} = Typography
 
 const HomePage = () => {
-    const {tg} = useTelegram();
     const {t} = useTranslation();
     const [checked, setChecked] = useState();
-    // useEffect(() => {
-    //     tg.ready();
-    // }, [])
     const {data:categoriesData,isLoading:categoriesIsLoading} = useGetAllQuery({
         key: KEYS.category_list,
         url: URLS.category_list
@@ -67,7 +64,6 @@ const HomePage = () => {
                                 get(categoriesData,'data.data')?.map((item) => (
                                     <Tag.CheckableTag
                                         style={{padding: "5px 10px"}}
-                                        bordered
                                         key={get(item,'id')}
                                         checked={isEqual(get(item,'id'),checked)}
                                         onChange={() => setChecked(get(item,'id'))}
@@ -79,6 +75,11 @@ const HomePage = () => {
                         </Space>
                     </Affix>
                 </div>
+                {
+                    get(categoriesData,'data.data')?.map((item) => {
+                        return <ProductContainer category={item} key={get(item,'id')}/>
+                    })
+                }
             </Space>
         </Container>
     );
