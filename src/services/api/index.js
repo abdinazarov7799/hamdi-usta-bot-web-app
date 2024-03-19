@@ -8,5 +8,5 @@ const request = axios.create({
   baseURL: config.API_ROOT,
   params: {user_id: get(user,'id','926834986')},
 });
-
+console.log(get(user,'id'),'user id')
 export { request };
