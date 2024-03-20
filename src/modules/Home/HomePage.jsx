@@ -8,18 +8,30 @@ import {URLS} from "../../constants/url.js";
 import {get, isEqual} from "lodash";
 import {useTranslation} from "react-i18next";
 import ProductContainer from "./components/ProductContainer.jsx";
+import {useParams} from "react-router-dom";
 const {Text} = Typography
 
 const HomePage = () => {
     const {t} = useTranslation();
+    const {lang,userId} = useParams();
     const [checked, setChecked] = useState();
     const {data:categoriesData,isLoading:categoriesIsLoading} = useGetAllQuery({
         key: KEYS.category_list,
-        url: URLS.category_list
+        url: URLS.category_list,
+        params: {
+            params: {
+                user_id: userId,
+            }
+        }
     })
     const {data:bannerData,isLoading:bannerIsLoading} = useGetAllQuery({
         key: KEYS.banner_list,
-        url: URLS.banner_list
+        url: URLS.banner_list,
+        params: {
+            params: {
+                user_id: userId,
+            }
+        }
     })
 
     return (
@@ -58,7 +70,7 @@ const HomePage = () => {
                     }
                 </Carousel>
                 <div style={{maxWidth: 560, overflowX: "scroll", scrollbarWidth: "none"}}>
-                    <Affix>
+                    <Affix offsetTop={20}>
                         <Space>
                             {
                                 get(categoriesData,'data.data')?.map((item) => (

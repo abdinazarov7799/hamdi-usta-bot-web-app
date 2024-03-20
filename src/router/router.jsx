@@ -14,7 +14,7 @@ const Router = ({ ...rest }) => {
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route
-              path={"/:lang"}
+              path={"/:userId/:lang"}
               index
               element={<HomePage />}
           />
