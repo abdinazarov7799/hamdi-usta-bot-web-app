@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useTelegram} from "../../hooks/useTelegram.jsx";
-import {Affix, Carousel, Col, Row, Space, Typography, Tag} from "antd";
+import React, {useState} from 'react';
+import {Carousel, Col, Row, Space, Typography, Tag, FloatButton} from "antd";
 import Container from "../../components/Container.jsx";
 import useGetAllQuery from "../../hooks/api/useGetAllQuery.js";
 import {KEYS} from "../../constants/key.js";
@@ -8,13 +7,18 @@ import {URLS} from "../../constants/url.js";
 import {get, isEqual} from "lodash";
 import {useTranslation} from "react-i18next";
 import ProductContainer from "./components/ProductContainer.jsx";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import AffixContainer from "../../components/AffixContainer.jsx";
+import InfiniteScroll from "react-infinite-scroll-component";
+import {ShoppingCartOutlined} from "@ant-design/icons";
 const {Text} = Typography
 
 const HomePage = () => {
     const {t} = useTranslation();
+    const navigate = useNavigate();
     const {lang,userId} = useParams();
     const [checked, setChecked] = useState();
+    const [hasMore, setHasMore] = useState(true);
     const {data:categoriesData,isLoading:categoriesIsLoading} = useGetAllQuery({
         key: KEYS.category_list,
         url: URLS.category_list,
@@ -33,6 +37,7 @@ const HomePage = () => {
             }
         }
     })
+
 
     return (
         <Container>
@@ -69,30 +74,29 @@ const HomePage = () => {
                         ))
                     }
                 </Carousel>
-                <div style={{maxWidth: 560, overflowX: "scroll", scrollbarWidth: "none"}}>
-                    <Affix offsetTop={20}>
-                        <Space>
-                            {
-                                get(categoriesData,'data.data')?.map((item) => (
-                                    <Tag.CheckableTag
-                                        style={{padding: "5px 10px"}}
-                                        key={get(item,'id')}
-                                        checked={isEqual(get(item,'id'),checked)}
-                                        onChange={() => setChecked(get(item,'id'))}
-                                    >
-                                        {get(item,'name')}
-                                    </Tag.CheckableTag>
-                                ))
-                            }
-                        </Space>
-                    </Affix>
-                </div>
+                <AffixContainer>
+                    <Space>
+                        {
+                            get(categoriesData,'data.data')?.map((item) => (
+                                <Tag.CheckableTag
+                                    style={{padding: "5px 10px"}}
+                                    key={get(item,'id')}
+                                    checked={isEqual(get(item,'id'),checked)}
+                                    onChange={() => setChecked(get(item,'id'))}
+                                >
+                                    {get(item,'name')}
+                                </Tag.CheckableTag>
+                            ))
+                        }
+                    </Space>
+                </AffixContainer>
                 {
-                    get(categoriesData,'data.data')?.map((item) => {
-                        return <ProductContainer category={item} key={get(item,'id')}/>
+                    get(categoriesData,'data.data',[])?.map((item) => {
+                        return <ProductContainer category={item} key={get(item,'id')} userId={userId}/>
                     })
                 }
             </Space>
+            <FloatButton onClick={() => navigate(`/basket/${userId}/${lang}`)} icon={<ShoppingCartOutlined />} />
         </Container>
     );
 };
