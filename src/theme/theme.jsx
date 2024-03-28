@@ -30,6 +30,14 @@ const GlobalStyles = createGlobalStyle`
       margin: 0 auto;
       min-height: 100vh;
   }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+  input[type=number] {
+      -moz-appearance: textfield;
+  }
 `
 const Theme = ({ children }) => {
 

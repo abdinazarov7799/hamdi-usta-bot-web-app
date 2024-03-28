@@ -5,11 +5,13 @@ import {useTranslation} from "react-i18next";
 import {ArrowLeftOutlined} from "@ant-design/icons";
 import {get} from "lodash";
 import {useNavigate, useParams} from "react-router-dom";
+import useStore from "../../services/store/useStore.jsx";
 const {Title,Text} = Typography;
 const BasketPage = () => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    const {orders} = useStore();
     const {t} = useTranslation()
     const navigate = useNavigate()
     const {userId,lang} = useParams()
@@ -26,55 +28,7 @@ const BasketPage = () => {
             variationName: "Middle size",
             price: "15,000",
             count: 2
-        },{
-            imgUrl: "http://localhost:8091/api/images/get/cb572732-a8ed-488d-a89f-e13e9d1fe12f.jpg",
-            title: "Pizza Pepperoni",
-            variationName: "Middle size",
-            price: "15,000",
-            count: 2
-        },{
-            imgUrl: "http://localhost:8091/api/images/get/cb572732-a8ed-488d-a89f-e13e9d1fe12f.jpg",
-            title: "Pizza Pepperoni",
-            variationName: "Middle size",
-            price: "15,000",
-            count: 2
-        },{
-            imgUrl: "http://localhost:8091/api/images/get/cb572732-a8ed-488d-a89f-e13e9d1fe12f.jpg",
-            title: "Pizza Pepperoni",
-            variationName: "Middle size",
-            price: "15,000",
-            count: 2
-        },{
-            imgUrl: "http://localhost:8091/api/images/get/cb572732-a8ed-488d-a89f-e13e9d1fe12f.jpg",
-            title: "Pizza Pepperoni",
-            variationName: "Middle size",
-            price: "15,000",
-            count: 2
-        },{
-            imgUrl: "http://localhost:8091/api/images/get/cb572732-a8ed-488d-a89f-e13e9d1fe12f.jpg",
-            title: "Pizza Pepperoni",
-            variationName: "Middle size",
-            price: "15,000",
-            count: 2
-        },{
-            imgUrl: "http://localhost:8091/api/images/get/cb572732-a8ed-488d-a89f-e13e9d1fe12f.jpg",
-            title: "Pizza Pepperoni",
-            variationName: "Middle size",
-            price: "15,000",
-            count: 2
-        },{
-            imgUrl: "http://localhost:8091/api/images/get/cb572732-a8ed-488d-a89f-e13e9d1fe12f.jpg",
-            title: "Pizza Pepperoni",
-            variationName: "Middle size",
-            price: "15,000",
-            count: 2
-        },{
-            imgUrl: "http://localhost:8091/api/images/get/cb572732-a8ed-488d-a89f-e13e9d1fe12f.jpg",
-            title: "Pizza Pepperoni",
-            variationName: "Middle size",
-            price: "15,000",
-            count: 2
-        },
+        }
     ]
     return (
         <Container>

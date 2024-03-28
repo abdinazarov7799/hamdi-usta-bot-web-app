@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import useGetOneQuery from "../../../hooks/api/useGetOneQuery.js";
 import {URLS} from "../../../constants/url.js";
 import {KEYS} from "../../../constants/key.js";
-import {get, isArray} from "lodash";
-import {Button, Card, Col, Input, Row, Space, Typography} from "antd";
+import {get, isArray, isEmpty, isEqual, isNil} from "lodash";
+import {Button, Card, Col, Flex, Input, InputNumber, Row, Space, Spin, Typography} from "antd";
 import {useTranslation} from "react-i18next";
+import useStore from "../../../services/store/useStore.jsx";
+import {useNavigate} from "react-router-dom";
+
 const {Title,Text} = Typography;
 
 const body = {
@@ -12,6 +15,9 @@ const body = {
 }
 const ProductContainer = ({category,userId}) => {
     const {t} = useTranslation();
+    const {orders, setOrders,increment,decrement} = useStore();
+    const [selectedProducts,setSelectedProducts] = useState([]);
+    const navigate = useNavigate();
     const {data,isLoading} = useGetOneQuery({
         id: get(category,'id'),
         url: URLS.get_product,
@@ -20,9 +26,25 @@ const ProductContainer = ({category,userId}) => {
             params: {
                 user_id: userId
             }
-        }
+        },
+        enabled:!isNil(category)
     })
 
+    const onChange = (value,item) => {
+        let order = {
+            count: value,
+            id: get(item,'id'),
+            variationId: get(item,'variationId')
+        }
+        setOrders(order)
+    }
+    const getCountForItem = (itemId) => {
+        const order = orders.find((order) => order.id === itemId);
+        return order ? order.count : 0;
+    };
+    if (isLoading) {
+        return <Flex justify={"center"} style={{marginTop: 10}}><Spin /></Flex>
+    }
     return (
         <div>
             <Title level={4}>{get(category,'name')}</Title>
@@ -42,15 +64,42 @@ const ProductContainer = ({category,userId}) => {
                                         {" "} {t("so'm")} {!get(item,'oneVariation') && t("dan")}
                                     </Text>
                                     {
-                                        get(item,'oneVariation') ?
-                                            <Button block type={"primary"} style={{marginTop: 7}}>
+                                        selectedProducts.findIndex((id) => isEqual(id,item.id)) ?
+                                            <Button
+                                                block
+                                                type={"primary"}
+                                                style={{marginTop: 7}}
+                                                onClick={() => {
+                                                    get(item,'oneVariation') ?
+                                                        setSelectedProducts(prevState => {
+                                                            return [...prevState,item.id]
+                                                        }) : navigate(`/product/view/${userId}/${item.id}`)
+                                                }}
+                                            >
                                                 {t("Savatga qo'shish")}
                                             </Button> :
-                                            <Space style={{marginTop: 7}}>
-                                                <Button type={"primary"}>-</Button>
-                                                <Input style={{textAlign: "center"}} />
-                                                <Button type={"primary"}>+</Button>
-                                            </Space>
+                                            <Flex style={{marginTop: 7}} justify={"space-between"} align={"center"}>
+                                                <Button
+                                                    type={"primary"}
+                                                    onClick={() => decrement(get(item,'id'))}
+                                                >
+                                                    -
+                                                </Button>
+                                                <Input
+                                                    value={getCountForItem(get(item, 'id'))}
+                                                    min={0}
+                                                    controls={false}
+                                                    type={"number"}
+                                                    style={{textAlign: "center",width: 50}}
+                                                    onChange={(e) => onChange(e.target.value,item)}
+                                                />
+                                                <Button
+                                                    type={"primary"}
+                                                    onClick={() => increment(item)}
+                                                >
+                                                    +
+                                                </Button>
+                                            </Flex>
                                     }
                                 </Card>
                             </Col>
