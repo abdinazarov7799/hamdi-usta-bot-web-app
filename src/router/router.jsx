@@ -22,17 +22,17 @@ const Router = ({ ...rest }) => {
               element={<HomePage />}
             />
             <Route
-              path={"/product/view/:userId/:lang/:id"}
+              path={"/product/view/:userId/:lang/:id/:isOpen"}
               index
               element={<ProductViewPage />}
             />
             <Route
-              path={"/basket/:userId/:lang"}
+              path={"/basket/:userId/:lang/:isOpen"}
               index
               element={<BasketPage />}
             />
             <Route
-              path={"/orders/:userId/:lang"}
+              path={"/orders/:userId/:lang/:isOpen"}
               index
               element={<OrdersPage />}
             />

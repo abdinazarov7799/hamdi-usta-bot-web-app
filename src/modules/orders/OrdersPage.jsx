@@ -12,7 +12,7 @@ const {Text} = Typography;
 const OrdersPage = () => {
     const {t} = useTranslation()
     const navigate = useNavigate()
-    const {userId,lang} = useParams()
+    const {userId,lang,isOpen} = useParams()
     const {data,isLoading} = useGetAllQuery({
         key: KEYS.get_all_order,
         url: URLS.get_all_order,
@@ -30,7 +30,7 @@ const OrdersPage = () => {
                     <Button
                         type={"primary"}
                         icon={<ArrowLeftOutlined />}
-                        onClick={() => navigate(`/${userId}/${lang}`)}
+                        onClick={() => navigate(`/${userId}/${lang}/${isOpen}`)}
                     >
                         {t("Back")}
                     </Button>

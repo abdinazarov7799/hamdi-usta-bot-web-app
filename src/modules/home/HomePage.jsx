@@ -16,7 +16,7 @@ const {Text} = Typography
 const HomePage = () => {
     const {t} = useTranslation();
     const navigate = useNavigate();
-    const {lang,userId} = useParams();
+    const {lang,userId,isOpen} = useParams();
     const [active, setActive] = useState();
     const [categories, setCategories] = useState([]);
     const [hasMore, setHasMore] = useState(true);
@@ -137,8 +137,8 @@ const HomePage = () => {
                 </div>
             </Space>
             <FloatButton.Group>
-                <FloatButton onClick={() => navigate(`/basket/${userId}/${lang}`)} icon={<ShoppingCartOutlined />} />
-                <FloatButton onClick={() => navigate(`/orders/${userId}/${lang}`)} icon={<TruckOutlined />} />
+                <FloatButton onClick={() => navigate(`/basket/${userId}/${lang}/${isOpen}`)} icon={<ShoppingCartOutlined />} />
+                <FloatButton onClick={() => navigate(`/orders/${userId}/${lang}/${isOpen}`)} icon={<TruckOutlined />} />
                 <FloatButton.BackTop />
             </FloatButton.Group>
         </Container>

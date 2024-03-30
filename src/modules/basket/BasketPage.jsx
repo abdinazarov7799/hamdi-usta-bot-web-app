@@ -17,7 +17,7 @@ const BasketPage = () => {
     const {orders,setOrders,increment, decrement} = useStore();
     const {t} = useTranslation()
     const navigate = useNavigate()
-    const {userId,lang} = useParams()
+    const {userId,lang,isOpen} = useParams()
     const [fullPrice, setFullPrice] = useState(0);
     const {mutate,isLoading} = usePostQuery({
         listKeyId: KEYS.get_order,
@@ -52,7 +52,7 @@ const BasketPage = () => {
                     <Button
                         type={"primary"}
                         icon={<ArrowLeftOutlined />}
-                        onClick={() => navigate(`/${userId}/${lang}`)}
+                        onClick={() => navigate(`/${userId}/${lang}/${isOpen}`)}
                     >
                         {t("Back")}
                     </Button>
