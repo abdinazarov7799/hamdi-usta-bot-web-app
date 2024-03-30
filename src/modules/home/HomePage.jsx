@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Carousel, Col, Row, Space, Typography, Tag, FloatButton} from "antd";
+import {Carousel, Col, Row, Space, Typography, FloatButton, Tag, Flex} from "antd";
 import Container from "../../components/Container.jsx";
 import useGetAllQuery from "../../hooks/api/useGetAllQuery.js";
 import {KEYS} from "../../constants/key.js";
@@ -10,13 +10,14 @@ import ProductContainer from "./components/ProductContainer.jsx";
 import {useNavigate, useParams} from "react-router-dom";
 import AffixContainer from "../../components/AffixContainer.jsx";
 import {ShoppingCartOutlined, TruckOutlined} from "@ant-design/icons";
+import {Link} from "react-scroll";
 const {Text} = Typography
 
 const HomePage = () => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const {lang,userId} = useParams();
-    const [activeCategory, setActiveCategory] = useState({});
+    const [active, setActive] = useState();
     const [categories, setCategories] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     let count = 0
@@ -39,7 +40,7 @@ const HomePage = () => {
         }
     })
     useEffect(() => {
-        setActiveCategory(head(get(categoriesData,'data.data',[])));
+        // setActive(head(get(categoriesData,'data.data',[])));
         setCategories([head(get(categoriesData,'data.data',[]))]);
     }, [categoryIsFetching,categoriesIsLoading]);
     useEffect(() => {
@@ -47,7 +48,6 @@ const HomePage = () => {
             setHasMore(true)
         }
     }, [categories]);
-
     window.addEventListener("scroll",(event) => {
         const offsetHeight = get(event,"target.scrollingElement.offsetHeight");
         const scrollingHeight = window.scrollY + window.innerHeight;
@@ -70,15 +70,25 @@ const HomePage = () => {
                     {
                         get(categoriesData,'data.data')?.map((item) => (
                             <Col span={6} key={get(item,'id')} style={{textAlign: "center"}}>
-                                <div style={{
-                                    height: 100,
-                                    backgroundImage: `url(${get(item,'imageUrl')})`,
-                                    backgroundPosition: "center center",
-                                    backgroundSize: "cover",
-                                    borderRadius: "20px"
-                                }}>
-                                </div>
-                                <Text>{get(item,'name')}</Text>
+                                <Link
+                                    activeClass="active"
+                                    to={get(item,'name')}
+                                    smooth={true}
+                                    isDynamic={true}
+                                    offset={-50}
+                                    onSetActive={(e) => console.log(e,'e')}
+                                    ignoreCancelEvents={false}
+                                >
+                                    <div style={{
+                                        height: 100,
+                                        backgroundImage: `url(${get(item,'imageUrl')})`,
+                                        backgroundPosition: "center center",
+                                        backgroundSize: "cover",
+                                        borderRadius: "20px"
+                                    }}>
+                                    </div>
+                                    <Text>{get(item,'name')}</Text>
+                                </Link>
                             </Col>
                         ))
                     }
@@ -102,14 +112,18 @@ const HomePage = () => {
                     <Space>
                         {
                             get(categoriesData,'data.data')?.map((item) => (
-                                <Tag.CheckableTag
-                                    style={{padding: "5px 10px"}}
+                                <Link
                                     key={get(item,'id')}
-                                    checked={isEqual(get(item,'id'),get(activeCategory,'id'))}
-                                    onChange={() => setActiveCategory(item)}
+                                    activeClass="active"
+                                    to={get(item,'name')}
+                                    smooth={true}
+                                    isDynamic={true}
+                                    offset={-50}
+                                    onSetActive={(e) => console.log(e,'e')}
+                                    ignoreCancelEvents={false}
                                 >
                                     {get(item,'name')}
-                                </Tag.CheckableTag>
+                                </Link>
                             ))
                         }
                     </Space>
@@ -117,7 +131,7 @@ const HomePage = () => {
                 <div>
                     {
                         categories?.map((item) => {
-                            return <ProductContainer category={item} key={get(item,'id')} userId={userId}/>
+                            return <ProductContainer category={item} key={get(item,'id')} userId={userId} lang={lang}/>
                         })
                     }
                 </div>

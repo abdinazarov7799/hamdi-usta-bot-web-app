@@ -3,7 +3,10 @@ import {create} from "zustand";
 
 const useStore = create((set) =>({
     orders: [],
-    setOrders: (newOrder) => set((state) => {
+    setOrders: (orders) => set(state => {
+        return {...state, orders}
+    }),
+    addToOrder: (newOrder) => set((state) => {
         if (newOrder.count === 0 || newOrder.count === null) {
             const updatedOrders = state.orders.filter(order => order.id !== newOrder.id);
             return { ...state, orders: updatedOrders };
@@ -26,7 +29,7 @@ const useStore = create((set) =>({
                 updatedOrders[existingOrderIndex].count++;
                 return { ...state, orders: updatedOrders };
             } else {
-                const newItem = { id: item.id, count: 1, variationId: item.variationId };
+                const newItem = { ...item, count: 1};
                 return { ...state, orders: [...state.orders, newItem] };
             }
         }),
@@ -37,8 +40,10 @@ const useStore = create((set) =>({
                 const updatedOrders = [...state.orders];
                 updatedOrders[existingOrderIndex].count--;
                 return { ...state, orders: updatedOrders };
+            }else {
+                const updatedOrders = state.orders.filter(order => order.id !== itemId);
+                return { ...state, orders: updatedOrders };
             }
-            return state;
         }),
 }))
 

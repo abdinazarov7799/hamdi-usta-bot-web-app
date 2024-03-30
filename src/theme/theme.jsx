@@ -38,6 +38,9 @@ const GlobalStyles = createGlobalStyle`
   input[type=number] {
       -moz-appearance: textfield;
   }
+  .active {
+      background-color: red!important;
+  }
 `
 const Theme = ({ children }) => {
 
