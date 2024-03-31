@@ -13,7 +13,7 @@ const {Title,Text} = Typography;
 const body = {
     padding: 8
 }
-const ProductContainer = ({category,userId,lang}) => {
+const ProductContainer = ({category,userId,lang,isOpen}) => {
     const {t} = useTranslation();
     const {orders, addToOrder,increment,decrement} = useStore();
     const navigate = useNavigate();
@@ -62,14 +62,14 @@ const ProductContainer = ({category,userId,lang}) => {
                                         {" "} {t("so'm")} {!get(item,'oneVariation') && t("dan")}
                                     </Text>
                                     {
-                                        !orders.some(order => isEqual(get(order,"id"),get(item,"id"))) ?
+                                        !orders?.some(order => isEqual(get(order,"id"),get(item,"id"))) ?
                                             <Button
                                                 block
                                                 type={"primary"}
                                                 style={{marginTop: 7}}
                                                 onClick={() => {
                                                     get(item,'oneVariation') ?
-                                                        increment(item) : navigate(`/product/view/${userId}/${lang}/${item.id}`)
+                                                        increment(item) : navigate(`/product/view/${userId}/${lang}/${item.id}/${isOpen}`)
                                                 }}
                                             >
                                                 {t("Savatga qo'shish")}

@@ -3,7 +3,7 @@ import Container from "../../components/Container.jsx";
 import {Button, Col, Empty, Flex, Image, Input, Row, Space, theme, Typography} from "antd";
 import {useTranslation} from "react-i18next";
 import {ArrowLeftOutlined} from "@ant-design/icons";
-import {get, isEmpty} from "lodash";
+import {get, isEmpty, isNil} from "lodash";
 import {useNavigate, useParams} from "react-router-dom";
 import useStore from "../../services/store/useStore.jsx";
 import usePostQuery from "../../hooks/api/usePostQuery.js";
@@ -30,20 +30,23 @@ const BasketPage = () => {
     }, [orders]);
 
     const dispatchOrder = () => {
-        mutate({
-                url: URLS.add_order,
-                attributes: orders,
-                config: {
-                    params: {
-                        user_id: userId
+        if (!isNil(orders)){
+            mutate({
+                    url: URLS.add_order,
+                    attributes: orders,
+                    config: {
+                        params: {
+                            user_id: userId
+                        }
                     }
-                }
-            },
-            {
-                onSuccess: () => {
-                    setOrders([])
-                }
-            })
+                },
+                {
+                    onSuccess: () => {
+                        setOrders([]);
+                        setFullPrice(0);
+                    }
+                })
+        }
     }
     return (
         <Container>
@@ -123,7 +126,7 @@ const BasketPage = () => {
                                 {fullPrice} {t("so'm")}
                             </Text>
                         </Flex>
-                        <Button block type={"primary"} onClick={dispatchOrder}>
+                        <Button block type={"primary"} onClick={dispatchOrder} loading={isLoading}>
                             {t("Оформить заказ")}
                         </Button>
                     </Space>

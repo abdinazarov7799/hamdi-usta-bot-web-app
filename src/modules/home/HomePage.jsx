@@ -131,7 +131,7 @@ const HomePage = () => {
                 <div>
                     {
                         categories?.map((item) => {
-                            return <ProductContainer category={item} key={get(item,'id')} userId={userId} lang={lang}/>
+                            return <ProductContainer category={item} key={get(item,'id')} userId={userId} lang={lang} isOpen={isOpen}/>
                         })
                     }
                 </div>

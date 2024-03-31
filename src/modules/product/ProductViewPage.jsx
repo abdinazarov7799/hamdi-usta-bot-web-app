@@ -11,7 +11,7 @@ import {useTranslation} from "react-i18next";
 import useStore from "../../services/store/useStore.jsx";
 const {Text,Title} = Typography;
 const ProductViewPage = () => {
-    const {id,userId,lang} = useParams();
+    const {id,userId,lang,isOpen} = useParams();
     const navigate = useNavigate();
     const {t} = useTranslation();
     const {decrement, increment} = useStore();
@@ -35,7 +35,7 @@ const ProductViewPage = () => {
                     <Button
                         type={"primary"}
                         icon={<ArrowLeftOutlined />}
-                        onClick={() => navigate(`/${userId}/${lang}`)}
+                        onClick={() => navigate(`/${userId}/${lang}/${isOpen}`)}
                     >
                         {t("Back")}
                     </Button>
