@@ -44,13 +44,13 @@ const ProductContainer = ({category,userId,lang,isOpen}) => {
     }
 
     return (
-        <Element id={get(category,'name')} style={{marginBottom: 20}}>
+        <Element name={get(category,'name')} style={{marginBottom: 20}} className="element">
             <Title level={4}>{get(category,'name')}</Title>
             <Row gutter={[10,15]}>
                 {
                     isArray(get(data,'data.data')) && get(data,'data.data',[])?.map((item,index) => {
                         return (
-                            <Col span={8} key={index+1}>
+                            <Col xs={{span: 12}} sm={{span: 8}} key={index+1}>
                                 <Card
                                     hoverable
                                     cover={<img src={get(item,'imageUrl')}/>}

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Carousel, Col, Row, Space, Typography, FloatButton, Tag, Flex} from "antd";
+import {Carousel, Col, Row, Space, Typography, FloatButton, Button} from "antd";
 import Container from "../../components/Container.jsx";
 import useGetAllQuery from "../../hooks/api/useGetAllQuery.js";
 import {KEYS} from "../../constants/key.js";
@@ -17,7 +17,6 @@ const HomePage = () => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const {lang,userId,isOpen} = useParams();
-    const [active, setActive] = useState();
     const [categories, setCategories] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     let count = 0
@@ -43,33 +42,35 @@ const HomePage = () => {
         // setActive(head(get(categoriesData,'data.data',[])));
         setCategories([head(get(categoriesData,'data.data',[]))]);
     }, [categoryIsFetching,categoriesIsLoading]);
+
     useEffect(() => {
         if (!hasMore){
             setHasMore(true)
         }
     }, [categories]);
-    window.addEventListener("scroll",(event) => {
-        const offsetHeight = get(event,"target.scrollingElement.offsetHeight");
-        const scrollingHeight = window.scrollY + window.innerHeight;
-        if((offsetHeight - scrollingHeight) < 200 && hasMore && get(categoriesData,'data.data',[]).length > count) {
-            count = count+1;
-            const newCategory = get(categoriesData,`data.data[${count}]`);
-            if (!categories?.find(item => !isEqual(get(item,'id'),get(newCategory,'id')))){
-                setCategories(prevState => [
-                    ...prevState,
-                    newCategory,
-                ])
-            }
-            setHasMore(false);
-        }
-    })
+
+    // window.addEventListener("scroll",(event) => {
+    //     const offsetHeight = get(event,"target.scrollingElement.offsetHeight");
+    //     const scrollingHeight = window.scrollY + window.innerHeight;
+    //     if((offsetHeight - scrollingHeight) < 200 && hasMore && get(categoriesData,'data.data',[]).length > count) {
+    //         count = count+1;
+    //         const newCategory = get(categoriesData,`data.data[${count}]`);
+    //         if (!categories?.find(item => !isEqual(get(item,'id'),get(newCategory,'id')))){
+    //             setCategories(prevState => [
+    //                 ...prevState,
+    //                 newCategory,
+    //             ])
+    //         }
+    //         setHasMore(false);
+    //     }
+    // })
     return (
         <Container>
             <Space style={{width: "100%"}} direction={"vertical"}>
                 <Row gutter={[10,10]}>
                     {
                         get(categoriesData,'data.data')?.map((item) => (
-                            <Col span={6} key={get(item,'id')} style={{textAlign: "center"}}>
+                            <Col xs={{span: 8}} sm={{span: 6}} key={get(item,'id')} style={{textAlign: "center"}}>
                                 <Link
                                     activeClass="active"
                                     to={get(item,'name')}
@@ -116,13 +117,11 @@ const HomePage = () => {
                                     key={get(item,'id')}
                                     activeClass="active"
                                     to={get(item,'name')}
-                                    smooth={true}
-                                    isDynamic={true}
+                                    smooth
+                                    spy
                                     offset={-50}
-                                    onSetActive={(e) => console.log(e,'e')}
-                                    ignoreCancelEvents={false}
                                 >
-                                    {get(item,'name')}
+                                    <Button type={"text"}>{get(item,'name')}</Button>
                                 </Link>
                             ))
                         }
@@ -130,7 +129,7 @@ const HomePage = () => {
                 </AffixContainer>
                 <div>
                     {
-                        categories?.map((item) => {
+                        get(categoriesData,'data.data',[])?.map((item) => {
                             return <ProductContainer category={item} key={get(item,'id')} userId={userId} lang={lang} isOpen={isOpen}/>
                         })
                     }

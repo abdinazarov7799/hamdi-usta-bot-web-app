@@ -19,28 +19,32 @@ const CustomTheme = {
 }
 
 const GlobalStyles = createGlobalStyle`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  body {
-      overflow-x: hidden;
-      max-width: 560px;
-      margin: 0 auto;
-      min-height: 100vh;
-  }
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-  }
-  input[type=number] {
-      -moz-appearance: textfield;
-  }
-  .active {
-      background-color: red!important;
-  }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        overflow-x: hidden;
+        max-width: 560px;
+        margin: 0 auto;
+        min-height: 100vh;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    .active button {
+        background-color: #dcdbdb;
+    }
 `
 const Theme = ({ children }) => {
 
