@@ -13,9 +13,8 @@ const AffixContainer = ({children,...rest}) => {
                     overflowX: "scroll",
                     scrollbarWidth: "none",
                     borderRadius: 5,
+                    border: "1px solid #dedddd",
                     backgroundColor: colorBgContainer,
-                    padding: 5,
-
                 }}>
                     {children}
                 </div>
