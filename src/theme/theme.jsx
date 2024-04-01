@@ -28,7 +28,7 @@ const GlobalStyles = createGlobalStyle`
     body {
         overflow-x: hidden;
         max-width: 560px;
-        margin: 0 auto;
+        //margin: 0 auto;
         min-height: 100vh;
     }
 
@@ -43,7 +43,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .active button {
-        background-color: #dcdbdb;
+        background-color: #bbb8b8;
     }
 `
 const Theme = ({ children }) => {
