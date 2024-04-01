@@ -1,32 +1,33 @@
 import React, {useEffect, useState} from 'react';
 import Container from "../../components/Container.jsx";
-import {Button, Col, Empty, Flex, Image, Input, Row, Space, theme, Typography} from "antd";
+import {Alert, Button, Col, Empty, Flex, Image, Input, Row, Space, theme, Typography} from "antd";
 import {useTranslation} from "react-i18next";
 import {ArrowLeftOutlined} from "@ant-design/icons";
-import {get, isEmpty, isNil} from "lodash";
+import {get, isEmpty, isEqual, isNil} from "lodash";
 import {useNavigate, useParams} from "react-router-dom";
 import useStore from "../../services/store/useStore.jsx";
 import usePostQuery from "../../hooks/api/usePostQuery.js";
-import {KEYS} from "../../constants/key.js";
 import {URLS} from "../../constants/url.js";
+import {useTelegram} from "../../hooks/useTelegram.jsx";
 const {Title,Text} = Typography;
 const BasketPage = () => {
     const {
-        token: { colorBgContainer },
+        token: { colorBorder },
     } = theme.useToken();
     const {orders,setOrders,increment, decrement} = useStore();
     const {t} = useTranslation()
     const navigate = useNavigate()
     const {userId,lang,isOpen} = useParams()
     const [fullPrice, setFullPrice] = useState(0);
-    const {mutate,isLoading} = usePostQuery({
-        listKeyId: KEYS.get_order,
-    })
+    const {mutate,isLoading} = usePostQuery({})
+    const {onClose} = useTelegram();
 
     useEffect(() => {
+        let price = 0
         orders?.map((order) => {
-            setFullPrice((get(order,'count') * get(order,'price')))
+            price += (get(order,'count') * get(order,'price'))
         })
+        setFullPrice(price)
     }, [orders]);
 
     const dispatchOrder = () => {
@@ -44,6 +45,7 @@ const BasketPage = () => {
                     onSuccess: () => {
                         setOrders([]);
                         setFullPrice(0);
+                        onClose();
                     }
                 })
         }
@@ -116,8 +118,12 @@ const BasketPage = () => {
                         </Row>
                     )
                 }
-                <div style={{position: "fixed", bottom: 0,left: 0, padding: "7px 15px", backgroundColor: colorBgContainer, width: "100%"}}>
+                <div style={{position: "fixed", bottom: 0,left: 0, padding: "7px 15px", width: "100%", backgroundColor: colorBorder}}>
                     <Space direction={"vertical"} style={{width: "100%"}}>
+                        {
+                            !isEqual(isOpen,'true') &&
+                            <Alert message={t("Hozirgi vaqtda barcha filiallarimiz yopilgan. Keltirilgan noqulayliklar uchun uzr so'raymiz.")} type="error" />
+                        }
                         <Flex justify={"space-between"} align={"center"}>
                             <Text>
                                 {t("Общая стоимость товаров:")}
@@ -126,7 +132,7 @@ const BasketPage = () => {
                                 {fullPrice} {t("so'm")}
                             </Text>
                         </Flex>
-                        <Button block type={"primary"} onClick={dispatchOrder} loading={isLoading}>
+                        <Button block type={"primary"} onClick={dispatchOrder} loading={isLoading} disabled={!isEqual(isOpen,'true')}>
                             {t("Оформить заказ")}
                         </Button>
                     </Space>

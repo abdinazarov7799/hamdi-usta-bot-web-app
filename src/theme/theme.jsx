@@ -13,7 +13,7 @@ const CustomTheme = {
         body: `'Montserrat', sans-serif`,
     },
     token: {
-        colorPrimary: '#00b96b',
+        colorPrimary: '#EC1B24',
         borderRadius: '5px',
     },
 }
