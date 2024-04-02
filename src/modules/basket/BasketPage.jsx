@@ -75,7 +75,7 @@ const BasketPage = () => {
                                     return (
                                         <Col span={24} key={index+1}>
                                             <Row>
-                                                <Col span={5}>
+                                                <Col xs={{span: 7}} sm={{span: 5}}>
                                                     <Image
                                                         src={get(item,'imageUrl')}
                                                         preview={false}
@@ -83,14 +83,14 @@ const BasketPage = () => {
                                                         height={90}
                                                     />
                                                 </Col>
-                                                <Col span={12}>
+                                                <Col xs={{span: 10}} sm={{span: 12}}>
                                                     <Space direction={"vertical"}>
                                                         <Title level={5}>{get(item,'name')}</Title>
                                                         <Text>{get(item,'variationName','')}</Text>
                                                         <Text>{get(item,'price')} {t("so'm")}</Text>
                                                     </Space>
                                                 </Col>
-                                                <Col span={7} >
+                                                <Col xs={{span: 5}} sm={{span: 7}}>
                                                     <Space direction={"vertical"} size={"large"}>
                                                         <Text>{get(item,'price') * get(item,'count')} {t("so'm")}</Text>
                                                         <Flex>
@@ -100,7 +100,7 @@ const BasketPage = () => {
                                                             >
                                                                 -
                                                             </Button>
-                                                            <Input style={{textAlign: "center", margin: "0 5px"}} value={get(item,'count')}/>
+                                                            <Input style={{textAlign: "center", margin: "0 5px", minWidth: 30}} value={get(item,'count')}/>
                                                             <Button
                                                                 type={"primary"}
                                                                 onClick={() => increment(item)}
@@ -121,7 +121,7 @@ const BasketPage = () => {
                 <div style={{position: "fixed", bottom: 0,left: 0, padding: "7px 15px", width: "100%", backgroundColor: colorBorder}}>
                     <Space direction={"vertical"} style={{width: "100%"}}>
                         {
-                            !isEqual(isOpen,'true') &&
+                            isEqual(isOpen,'true') &&
                             <Alert message={t("Hozirgi vaqtda barcha filiallarimiz yopilgan. Keltirilgan noqulayliklar uchun uzr so'raymiz.")} type="error" />
                         }
                         <Flex justify={"space-between"} align={"center"}>
@@ -132,7 +132,7 @@ const BasketPage = () => {
                                 {fullPrice} {t("so'm")}
                             </Text>
                         </Flex>
-                        <Button block type={"primary"} onClick={dispatchOrder} loading={isLoading} disabled={!isEqual(isOpen,'true')}>
+                        <Button block type={"primary"} onClick={dispatchOrder} loading={isLoading} disabled={isEqual(isOpen,'true')}>
                             {t("Оформить заказ")}
                         </Button>
                     </Space>

@@ -14,7 +14,7 @@ const OrdersPage = () => {
     const {t} = useTranslation()
     const navigate = useNavigate()
     const {userId,lang,isOpen} = useParams()
-    const [isModalOpen, setIsModalOpen] = useState(!isEqual(isOpen,'true'));
+    const [isModalOpen, setIsModalOpen] = useState(isEqual(isOpen,'true'));
     const [selectedItem, setSelectedItem] = useState(null);
     const {data,isLoading} = useGetAllQuery({
         key: KEYS.get_all_order,
