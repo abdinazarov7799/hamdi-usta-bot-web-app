@@ -119,7 +119,7 @@ const BasketPage = () => {
                     )
                 }
                 <div style={{position: "fixed", bottom: 0,left: 0, padding: "7px 15px", width: "100%", backgroundColor: colorBorder}}>
-                    <Space direction={"vertical"} style={{width: "100%",paddingBottom: 12}}>
+                    <Space direction={"vertical"} style={{width: "100%"}}>
                         {
                             !isEqual(isOpen,'true') &&
                             <Alert message={t("Hozirgi vaqtda barcha filiallarimiz yopilgan. Keltirilgan noqulayliklar uchun uzr so'raymiz.")} type="error" />
