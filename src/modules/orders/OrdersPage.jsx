@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
 import Container from "../../components/Container.jsx";
-import {Button, Col, Empty, Flex, Image, Input, Modal, Row, Space, Spin, Typography} from "antd";
+import {Button, Col, Empty, Flex, Image, Modal, Row, Space, Spin, Typography} from "antd";
 import {ArrowLeftOutlined} from "@ant-design/icons";
 import useGetAllQuery from "../../hooks/api/useGetAllQuery.js";
 import {KEYS} from "../../constants/key.js";
@@ -14,7 +14,7 @@ const OrdersPage = () => {
     const {t} = useTranslation()
     const navigate = useNavigate()
     const {userId,lang,isOpen} = useParams()
-    const [isModalOpen, setIsModalOpen] = useState(isEqual(isOpen,'true'));
+    const [isModalOpen, setIsModalOpen] = useState(!isEqual(isOpen,'true'));
     const [selectedItem, setSelectedItem] = useState(null);
     const {data,isLoading} = useGetAllQuery({
         key: KEYS.get_all_order,

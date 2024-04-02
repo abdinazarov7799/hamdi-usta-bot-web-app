@@ -2,7 +2,7 @@ import React from 'react';
 import useGetOneQuery from "../../../hooks/api/useGetOneQuery.js";
 import {URLS} from "../../../constants/url.js";
 import {KEYS} from "../../../constants/key.js";
-import {get, isArray,find, isEqual, isNil} from "lodash";
+import {get, isArray,isEqual, isNil} from "lodash";
 import {Button, Card, Col, Flex, Input, Row, Spin, Typography} from "antd";
 import {useTranslation} from "react-i18next";
 import useStore from "../../../services/store/useStore.jsx";

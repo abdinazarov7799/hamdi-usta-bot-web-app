@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {Modal, Row, Space, Typography} from "antd";
-import {get, isEqual, isNil} from "lodash";
+import React from 'react';
+import {Row, Space, Typography} from "antd";
+import {get, isEqual} from "lodash";
 import {useTranslation} from "react-i18next";
 const {Title,Text} = Typography;
 const Orders = ({data,setSelectedItem}) => {

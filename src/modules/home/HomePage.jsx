@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Carousel, Col, Row, Space, Typography, FloatButton, Button, Modal} from "antd";
 import Container from "../../components/Container.jsx";
 import useGetAllQuery from "../../hooks/api/useGetAllQuery.js";
@@ -17,7 +17,7 @@ const HomePage = () => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const {lang,userId,isOpen} = useParams();
-    const [isModalOpen, setIsModalOpen] = useState(isEqual(isOpen,'true'));
+    const [isModalOpen, setIsModalOpen] = useState(!isEqual(isOpen,'true'));
     const {data:categoriesData,isLoading:categoriesIsLoading,isFetching:categoryIsFetching} = useGetAllQuery({
         key: KEYS.category_list,
         url: URLS.category_list,

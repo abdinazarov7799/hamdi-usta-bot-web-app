@@ -5,7 +5,7 @@ import useGetOneQuery from "../../hooks/api/useGetOneQuery.js";
 import {KEYS} from "../../constants/key.js";
 import {URLS} from "../../constants/url.js";
 import {get, head, isEqual} from "lodash";
-import {Alert, Button, Col, Flex, Input, Radio, Row, Space, theme, Typography} from "antd";
+import {Button, Flex, Input, Radio, Space, Spin, theme, Typography} from "antd";
 import {ArrowLeftOutlined} from "@ant-design/icons";
 import {useTranslation} from "react-i18next";
 import useStore from "../../services/store/useStore.jsx";
@@ -45,6 +45,9 @@ const ProductViewPage = () => {
             name: get(selected,'product.name'),
             imageUrl: get(selected,'product.imageUrl'),
         })
+    }
+    if (isLoading){
+        return <Spin fullscreen/>
     }
     return (
         <Container>
