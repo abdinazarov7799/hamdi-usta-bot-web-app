@@ -97,7 +97,7 @@ const ProductViewPage = () => {
                             width: "100%",
                             backgroundColor: colorBorder
                         }}>
-                            <Space direction={"vertical"} style={{width: "100%"}}>
+                            <Space direction={"vertical"} style={{width: "100%", paddingBottom: 12}}>
                                 <Flex justify={"space-between"} align={"center"}>
                                     <Text>
                                         {get(selected, 'name')}
