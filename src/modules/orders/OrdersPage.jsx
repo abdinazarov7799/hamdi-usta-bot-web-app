@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import {useTranslation} from "react-i18next";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import Container from "../../components/Container.jsx";
-import {Button, Col, Empty, Flex, Image, Modal, Row, Space, Spin, Typography} from "antd";
-import {ArrowLeftOutlined} from "@ant-design/icons";
+import {Col, Empty, Flex, Image, Modal, Row, Space, Spin, Typography} from "antd";
 import useGetAllQuery from "../../hooks/api/useGetAllQuery.js";
 import {KEYS} from "../../constants/key.js";
 import {URLS} from "../../constants/url.js";
@@ -12,7 +11,6 @@ import Orders from "./components/Orders.jsx";
 const {Text,Title} = Typography;
 const OrdersPage = () => {
     const {t} = useTranslation()
-    const navigate = useNavigate()
     const {userId,lang,isOpen} = useParams()
     const [isModalOpen, setIsModalOpen] = useState(!isEqual(isOpen,'true'));
     const [selectedItem, setSelectedItem] = useState(null);
@@ -43,15 +41,6 @@ const OrdersPage = () => {
                 </Text>
             </Modal>
             <Space direction={"vertical"} style={{width: "100%"}}>
-                <Flex>
-                    <Button
-                        type={"primary"}
-                        icon={<ArrowLeftOutlined />}
-                        onClick={() => navigate(`/${userId}/${lang}/${isOpen}`)}
-                    >
-                        {t("Back")}
-                    </Button>
-                </Flex>
                 {
                     isEmpty(get(data,'data.data')) ? (
                         <Flex justify={"center"} vertical align={"center"} style={{marginTop: 100}}>
