@@ -2,18 +2,20 @@ import React, {useState} from 'react';
 import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
 import Container from "../../components/Container.jsx";
-import {Button, Empty, Flex, Modal, Space, Typography} from "antd";
+import {Button, Col, Empty, Flex, Image, Input, Modal, Row, Space, Spin, Typography} from "antd";
 import {ArrowLeftOutlined} from "@ant-design/icons";
 import useGetAllQuery from "../../hooks/api/useGetAllQuery.js";
 import {KEYS} from "../../constants/key.js";
 import {URLS} from "../../constants/url.js";
-import {get, isEmpty, isEqual} from "lodash";
-const {Text} = Typography;
+import {get, isEmpty, isEqual, isNil} from "lodash";
+import Orders from "./components/Orders.jsx";
+const {Text,Title} = Typography;
 const OrdersPage = () => {
     const {t} = useTranslation()
     const navigate = useNavigate()
     const {userId,lang,isOpen} = useParams()
-    const [isModalOpen, setIsModalOpen] = useState(isEqual(isOpen,'true'));
+    const [isModalOpen, setIsModalOpen] = useState(!isEqual(isOpen,'true'));
+    const [selectedItem, setSelectedItem] = useState(null);
     const {data,isLoading} = useGetAllQuery({
         key: KEYS.get_all_order,
         url: URLS.get_all_order,
@@ -23,7 +25,16 @@ const OrdersPage = () => {
             }
         }
     })
-
+    if (isLoading){
+        return <Spin fullscreen />
+    }
+    const style = {
+        boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+        padding: "10px",
+        borderRadius: 10,
+        cursor: "pointer",
+        marginTop: 3
+    }
     return (
         <Container>
             <Modal title={"Ma'lumot"} open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
@@ -48,10 +59,56 @@ const OrdersPage = () => {
                             <Text>{t("Malumot yo'q")}</Text>
                         </Flex>
                     ) : (
-                        <></>
+                        <>
+                            {
+                                get(data,'data.data',[])?.map((data) => {
+                                    return <Orders data={data} key={get(data,'id')} setSelectedItem={setSelectedItem}/>
+                                })
+                            }
+                        </>
                     )
                 }
             </Space>
+            <Modal title={"To'liq ma'lumot"} open={!isNil(selectedItem)} onCancel={() => setSelectedItem(null)} footer={null}>
+               <Space direction={"vertical"} style={{width: "100%", maxHeight: "80vh", overflowY: "scroll", scrollbarWidth: "none"}}>
+                   <Flex align={"center"} justify={"space-between"}>
+                       <Text>{t("Buyurtma raqami")}: {get(selectedItem,'id')}</Text>
+                       <Text>{t("To'lov turi")}: {get(selectedItem,'paymentProviderName')}</Text>
+                   </Flex>
+                   <Row gutter={[5,15]}>
+                       {
+                           get(selectedItem,'orderProducts',[])?.map((item) => {
+                               return (
+                                   <Col span={24} key={get(item,'id')} style={style}>
+                                       <Row>
+                                           <Col span={5}>
+                                               <Image
+                                                   src={get(item,'variation.product.imageUrl')}
+                                                   preview={false}
+                                                   width={90}
+                                                   height={90}
+                                               />
+                                           </Col>
+                                           <Col span={12}>
+                                               <Space direction={"vertical"}>
+                                                   <Title level={5}>{get(item,'variation.product.name')}</Title>
+                                                   <Text>{get(item,'variation.name','')}</Text>
+                                               </Space>
+                                           </Col>
+                                           <Col span={7} style={{textAlign: "right"}}>
+                                               <Space direction={"vertical"} size={"large"}>
+                                                   <Text>{get(item,'count')} {t("dona")}</Text>
+                                                   <Text>{get(item,'variation.price') * get(item,'count')} {t("so'm")}</Text>
+                                               </Space>
+                                           </Col>
+                                       </Row>
+                                   </Col>
+                               )
+                           })
+                       }
+                   </Row>
+               </Space>
+            </Modal>
         </Container>
     );
 };

@@ -77,7 +77,7 @@ const ProductContainer = ({category,userId,lang,isOpen}) => {
                                             <Flex style={{marginTop: 7}} justify={"space-between"} align={"center"}>
                                                 <Button
                                                     type={"primary"}
-                                                    onClick={() => decrement(get(item,'id'))}
+                                                    onClick={() => decrement(get(item,'variationId'))}
                                                 >
                                                     -
                                                 </Button>

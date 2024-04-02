@@ -13,11 +13,12 @@ const AffixContainer = ({children,...rest}) => {
                     overflowX: "scroll",
                     scrollbarWidth: "none",
                     borderRadius: 5,
-                    border: "1px solid #dedddd",
                     backgroundColor: colorBgContainer,
+                    boxShadow: "rgba(0, 0, 0, 0.05) 0px 1px 2px 0px"
                 }}>
                     {children}
                 </div>
+
             </Affix>
         </div>
     );

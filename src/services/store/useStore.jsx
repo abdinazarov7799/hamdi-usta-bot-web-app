@@ -8,10 +8,10 @@ const useStore = create((set) =>({
     }),
     addToOrder: (newOrder) => set((state) => {
         if (newOrder.count === 0 || newOrder.count === null) {
-            const updatedOrders = state.orders.filter(order => order.id !== newOrder.id);
+            const updatedOrders = state.orders.filter(order => order?.variationId !== newOrder?.variationId);
             return { ...state, orders: updatedOrders };
         } else {
-            const existingOrderIndex = state.orders.findIndex(order => order.id === newOrder.id);
+            const existingOrderIndex = state.orders.findIndex(order => order?.variationId === newOrder?.variationId);
             if (existingOrderIndex !== -1) {
                 const updatedOrders = [...state.orders];
                 updatedOrders[existingOrderIndex] = newOrder;
@@ -23,7 +23,7 @@ const useStore = create((set) =>({
     }),
     increment: (item) =>
         set((state) => {
-            const existingOrderIndex = state.orders.findIndex((order) => order.id === item.id);
+            const existingOrderIndex = state.orders.findIndex((order) => order?.variationId === item?.variationId);
             if (existingOrderIndex !== -1) {
                 const updatedOrders = [...state.orders];
                 updatedOrders[existingOrderIndex].count++;
@@ -33,15 +33,15 @@ const useStore = create((set) =>({
                 return { ...state, orders: [...state.orders, newItem] };
             }
         }),
-    decrement: (itemId) =>
+    decrement: (variationId) =>
         set((state) => {
-            const existingOrderIndex = state.orders.findIndex((order) => order.id === itemId);
+            const existingOrderIndex = state.orders.findIndex((order) => order?.variationId === variationId);
             if (existingOrderIndex !== -1 && state.orders[existingOrderIndex].count > 0) {
                 const updatedOrders = [...state.orders];
                 updatedOrders[existingOrderIndex].count--;
                 return { ...state, orders: updatedOrders };
             }else {
-                const updatedOrders = state.orders.filter(order => order.id !== itemId);
+                const updatedOrders = state.orders.filter(order => order?.variationId !== variationId);
                 return { ...state, orders: updatedOrders };
             }
         }),

@@ -86,7 +86,7 @@ const BasketPage = () => {
                                                 <Col span={12}>
                                                     <Space direction={"vertical"}>
                                                         <Title level={5}>{get(item,'name')}</Title>
-                                                        <Text>{get(item,'variationName','variationName')}</Text>
+                                                        <Text>{get(item,'variationName','')}</Text>
                                                         <Text>{get(item,'price')} {t("so'm")}</Text>
                                                     </Space>
                                                 </Col>
@@ -96,7 +96,7 @@ const BasketPage = () => {
                                                         <Flex>
                                                             <Button
                                                                 type={"primary"}
-                                                                onClick={() => decrement(get(item,'id'))}
+                                                                onClick={() => decrement(get(item,'variationId'))}
                                                             >
                                                                 -
                                                             </Button>

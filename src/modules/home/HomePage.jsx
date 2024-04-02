@@ -55,7 +55,6 @@ const HomePage = () => {
                                     smooth={true}
                                     isDynamic={true}
                                     offset={-50}
-                                    onSetActive={(e) => console.log(e,'e')}
                                     ignoreCancelEvents={false}
                                 >
                                     <div style={{
