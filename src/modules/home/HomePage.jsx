@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Carousel, Col, Row, Space, Typography, FloatButton, Button, Modal} from "antd";
 import Container from "../../components/Container.jsx";
 import useGetAllQuery from "../../hooks/api/useGetAllQuery.js";
@@ -11,14 +11,16 @@ import {useNavigate, useParams} from "react-router-dom";
 import AffixContainer from "../../components/AffixContainer.jsx";
 import {ShoppingCartOutlined} from "@ant-design/icons";
 import {Link} from "react-scroll";
+import useStore from "../../services/store/useStore.jsx";
 const {Text} = Typography
 
 const HomePage = () => {
-    const {t} = useTranslation();
+    const {t,i18n} = useTranslation();
     const navigate = useNavigate();
-    const {lang,userId,isOpen} = useParams();
-    const [isModalOpen, setIsModalOpen] = useState(!isEqual(isOpen,'true'));
-    const {data:categoriesData,isLoading:categoriesIsLoading,isFetching:categoryIsFetching} = useGetAllQuery({
+    const {lang,userId} = useParams();
+    const {branchesIsOpen,setBranchesIsOpen} = useStore();
+    const [isModalOpen, setIsModalOpen] = useState(!isEqual(branchesIsOpen,'true'));
+    const {data:categoriesData} = useGetAllQuery({
         key: KEYS.category_list,
         url: URLS.category_list,
         params: {
@@ -27,7 +29,7 @@ const HomePage = () => {
             }
         }
     })
-    const {data:bannerData,isLoading:bannerIsLoading} = useGetAllQuery({
+    const {data:bannerData} = useGetAllQuery({
         key: KEYS.banner_list,
         url: URLS.banner_list,
         params: {
@@ -36,10 +38,24 @@ const HomePage = () => {
             }
         }
     })
-
+    const {data:branchesIsActive} = useGetAllQuery({
+        key: KEYS.get_branch_active,
+        url: URLS.get_branch_active,
+    })
+    useEffect(() => {
+        setBranchesIsOpen(get(branchesIsActive,'data.data'));
+        setIsModalOpen(!isEqual(get(branchesIsActive,'data.data'),'true'))
+    }, [get(branchesIsActive,'data')]);
+    const changeLang = () => {
+        localStorage.setItem('lang', lang);
+        i18n.changeLanguage(lang)
+    }
+    useEffect(() => {
+        changeLang();
+    }, []);
     return (
         <Container>
-            <Modal title={"Ma'lumot"} open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
+            <Modal title={t("Ma'lumot")} open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
                 <Text>
                     {t("Hozirgi vaqtda barcha filiallarimiz yopilgan. Keltirilgan noqulayliklar uchun uzr so'raymiz.")}
                 </Text>
@@ -107,13 +123,13 @@ const HomePage = () => {
                 <div>
                     {
                         get(categoriesData,'data.data',[])?.map((item) => {
-                            return <ProductContainer category={item} key={get(item,'id')} userId={userId} lang={lang} isOpen={isOpen}/>
+                            return <ProductContainer category={item} key={get(item,'id')} userId={userId} lang={lang}/>
                         })
                     }
                 </div>
             </Space>
             <FloatButton.Group>
-                <FloatButton onClick={() => navigate(`/basket/${userId}/${lang}/${isOpen}`)} icon={<ShoppingCartOutlined />} />
+                <FloatButton onClick={() => navigate(`/basket/${userId}/${lang}`)} icon={<ShoppingCartOutlined />} />
                 <FloatButton.BackTop />
             </FloatButton.Group>
         </Container>

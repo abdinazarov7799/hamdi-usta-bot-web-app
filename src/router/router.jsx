@@ -17,22 +17,22 @@ const Router = ({ ...rest }) => {
       <Suspense fallback={<Loader />}>
         <Routes>
             <Route
-              path={"/:userId/:lang/:isOpen"}
+              path={"/:userId/:lang"}
               index
               element={<HomePage />}
             />
             <Route
-              path={"/product/view/:userId/:lang/:id/:isOpen"}
+              path={"/product/view/:userId/:lang/:id"}
               index
               element={<ProductViewPage />}
             />
             <Route
-              path={"/basket/:userId/:lang/:isOpen"}
+              path={"/basket/:userId/:lang"}
               index
               element={<BasketPage />}
             />
             <Route
-              path={"/orders/:userId/:lang/:isOpen"}
+              path={"/orders/:userId/:lang"}
               index
               element={<OrdersPage />}
             />

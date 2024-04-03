@@ -14,14 +14,13 @@ const BasketPage = () => {
     const {
         token: { colorBorder },
     } = theme.useToken();
-    const {orders,setOrders,increment, decrement} = useStore();
+    const {orders,setOrders,increment, decrement,branchesIsOpen} = useStore();
     const {t} = useTranslation()
     const navigate = useNavigate()
-    const {userId,lang,isOpen} = useParams()
+    const {userId,lang} = useParams()
     const [fullPrice, setFullPrice] = useState(0);
     const {mutate,isLoading} = usePostQuery({})
     const {onClose} = useTelegram();
-
     useEffect(() => {
         let price = 0
         orders?.map((order) => {
@@ -57,7 +56,7 @@ const BasketPage = () => {
                     <Button
                         type={"primary"}
                         icon={<ArrowLeftOutlined />}
-                        onClick={() => navigate(`/${userId}/${lang}/${isOpen}`)}
+                        onClick={() => navigate(`/${userId}/${lang}`)}
                     >
                         {t("Back")}
                     </Button>
@@ -121,7 +120,7 @@ const BasketPage = () => {
                 <div style={{position: "fixed", bottom: 0,left: 0, padding: "7px 15px", width: "100%", backgroundColor: colorBorder}}>
                     <Space direction={"vertical"} style={{width: "100%"}}>
                         {
-                            !isEqual(isOpen,'true') &&
+                            !isEqual(branchesIsOpen,'true') &&
                             <Alert message={t("Hozirgi vaqtda barcha filiallarimiz yopilgan. Keltirilgan noqulayliklar uchun uzr so'raymiz.")} type="error" />
                         }
                         <Flex justify={"space-between"} align={"center"}>
@@ -132,7 +131,7 @@ const BasketPage = () => {
                                 {fullPrice} {t("so'm")}
                             </Text>
                         </Flex>
-                        <Button block type={"primary"} onClick={dispatchOrder} loading={isLoading} disabled={!isEqual(isOpen,'true')}>
+                        <Button block type={"primary"} onClick={dispatchOrder} loading={isLoading} disabled={!isEqual(branchesIsOpen,'true')}>
                             {t("Оформить заказ")}
                         </Button>
                     </Space>

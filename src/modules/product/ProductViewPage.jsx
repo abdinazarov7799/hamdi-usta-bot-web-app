@@ -11,7 +11,7 @@ import {useTranslation} from "react-i18next";
 import useStore from "../../services/store/useStore.jsx";
 const {Text,Title} = Typography;
 const ProductViewPage = () => {
-    const {id,userId,lang,isOpen} = useParams();
+    const {id,userId,lang} = useParams();
     const navigate = useNavigate();
     const {t} = useTranslation();
     const [selected, setSelected] = useState();
@@ -56,7 +56,7 @@ const ProductViewPage = () => {
                     <Button
                         type={"primary"}
                         icon={<ArrowLeftOutlined/>}
-                        onClick={() => navigate(`/${userId}/${lang}/${isOpen}`)}
+                        onClick={() => navigate(`/${userId}/${lang}`)}
                     >
                         {t("Back")}
                     </Button>

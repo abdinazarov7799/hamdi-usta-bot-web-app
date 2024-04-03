@@ -5,4 +5,5 @@ export const URLS = {
     get_variation: "/api/variation-web/get",
     get_all_order: "/api/order-web/get-all",
     add_order: "/api/order-web/add",
+    get_branch_active: "/api/branches/active",
 }

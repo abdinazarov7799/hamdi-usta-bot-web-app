@@ -13,7 +13,7 @@ const {Title,Text} = Typography;
 const body = {
     padding: 8
 }
-const ProductContainer = ({category,userId,lang,isOpen}) => {
+const ProductContainer = ({category,userId,lang}) => {
     const {t} = useTranslation();
     const {orders, addToOrder,increment,decrement} = useStore();
     const navigate = useNavigate();
@@ -69,7 +69,7 @@ const ProductContainer = ({category,userId,lang,isOpen}) => {
                                                 style={{marginTop: 7}}
                                                 onClick={() => {
                                                     get(item,'oneVariation') ?
-                                                        increment(item) : navigate(`/product/view/${userId}/${lang}/${item.id}/${isOpen}`)
+                                                        increment(item) : navigate(`/product/view/${userId}/${lang}/${item.id}`)
                                                 }}
                                             >
                                                 {t("Savatga qo'shish")}
