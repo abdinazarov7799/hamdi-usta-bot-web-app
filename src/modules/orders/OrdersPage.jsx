@@ -71,7 +71,7 @@ const OrdersPage = () => {
                                return (
                                    <Col span={24} key={get(item,'id')} style={style}>
                                        <Row justify={"space-between"}>
-                                           <Space>
+                                           <Space style={{justifyContent: "space-between"}}>
                                                <img
                                                    src={get(item,'variation.product.imageUrl')}
                                                    width={90}
@@ -82,7 +82,7 @@ const OrdersPage = () => {
                                                    <Text>{get(item,'variation.name','')}</Text>
                                                </Space>
                                            </Space>
-                                           <Space direction={"vertical"} size={"large"}>
+                                           <Space direction={"vertical"} size={"large"} style={{textAlign: "end", justifyContent: "space-between", alignItems: "end"}}>
                                                <Text>{get(item,'count')} {t("dona")}</Text>
                                                <Text>{get(item,'variation.price') * get(item,'count')} {t("so'm")}</Text>
                                            </Space>
