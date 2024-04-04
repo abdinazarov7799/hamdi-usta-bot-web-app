@@ -82,7 +82,7 @@ const OrdersPage = () => {
                                                    <Text>{get(item,'variation.name','')}</Text>
                                                </Space>
                                            </Space>
-                                           <Space direction={"vertical"} size={"large"} style={{textAlign: "end", alignItems: "end"}}>
+                                           <Space direction={"vertical"} size={"large"} style={{textAlign: "end", justifyContent: "center", alignItems: "end"}}>
                                                <Text>{get(item,'count')} {t("dona")}</Text>
                                                <Text>{get(item,'variation.price') * get(item,'count')} {t("so'm")}</Text>
                                            </Space>
