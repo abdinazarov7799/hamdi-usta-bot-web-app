@@ -13,7 +13,7 @@ const Container = ({children}) => {
             borderRadius: 0,
             width: "100%",
             backgroundColor: colorBgContainer,
-            minHeight: "98vh"
+            minHeight: "100vh"
         }}>
             {children}
         </div>

@@ -73,42 +73,40 @@ const BasketPage = () => {
                                 orders?.map((item,index) => {
                                     return (
                                         <Col span={24} key={index+1}>
-                                            <Row>
-                                                <Col xs={{span: 7}} sm={{span: 5}}>
+                                            <Row justify={"space-between"}>
+                                                <Space>
                                                     <Image
                                                         src={get(item,'imageUrl')}
                                                         preview={false}
                                                         width={90}
                                                         height={90}
                                                     />
-                                                </Col>
-                                                <Col xs={{span: 10}} sm={{span: 12}}>
                                                     <Space direction={"vertical"}>
                                                         <Title level={5}>{get(item,'name')}</Title>
-                                                        <Text>{get(item,'variationName','')}</Text>
+                                                        <Text>{get(item,'variationName')}</Text>
                                                         <Text>{get(item,'price')} {t("so'm")}</Text>
                                                     </Space>
-                                                </Col>
-                                                <Col xs={{span: 5}} sm={{span: 7}}>
-                                                    <Space direction={"vertical"} size={"large"}>
-                                                        <Text>{get(item,'price') * get(item,'count')} {t("so'm")}</Text>
-                                                        <Flex>
-                                                            <Button
-                                                                type={"primary"}
-                                                                onClick={() => decrement(get(item,'variationId'))}
-                                                            >
-                                                                -
-                                                            </Button>
-                                                            <Input style={{textAlign: "center", margin: "0 5px", minWidth: 30}} value={get(item,'count')}/>
-                                                            <Button
-                                                                type={"primary"}
-                                                                onClick={() => increment(item)}
-                                                            >
-                                                                +
-                                                            </Button>
-                                                        </Flex>
-                                                    </Space>
-                                                </Col>
+                                                </Space>
+                                                <Space direction={"vertical"} size={"large"} style={{width: 120, textAlign: "end", justifyContent: "space-between", alignItems: "end"}}>
+                                                    <Text>{get(item,'price') * get(item,'count')} {t("so'm")}</Text>
+                                                    <Flex>
+                                                        <Button
+                                                            type={"primary"}
+                                                            onClick={() => decrement(get(item,'variationId'))}
+                                                            style={{width: 30, padding: 0}}
+                                                        >
+                                                            -
+                                                        </Button>
+                                                        <Input style={{textAlign: "center", margin: "0 5px",width: 40 , minWidth: 30}} value={get(item,'count')}/>
+                                                        <Button
+                                                            type={"primary"}
+                                                            onClick={() => increment(item)}
+                                                            style={{width: 30, padding: 0}}
+                                                        >
+                                                            +
+                                                        </Button>
+                                                    </Flex>
+                                                </Space>
                                             </Row>
                                         </Col>
                                     )
@@ -117,21 +115,21 @@ const BasketPage = () => {
                         </Row>
                     )
                 }
-                <div style={{position: "fixed", bottom: 0,left: 0, padding: "7px 15px", width: "100%", backgroundColor: colorBorder}}>
+                <div style={{position: "fixed", bottom: 0,left: 0,  padding: "15px 10px 17px 10px", width: "100%", backgroundColor: colorBorder}}>
                     <Space direction={"vertical"} style={{width: "100%"}}>
                         {
-                            !isEqual(branchesIsOpen,'true') &&
+                            !branchesIsOpen &&
                             <Alert message={t("Hozirgi vaqtda barcha filiallarimiz yopilgan. Keltirilgan noqulayliklar uchun uzr so'raymiz.")} type="error" />
                         }
                         <Flex justify={"space-between"} align={"center"}>
-                            <Text>
+                            <Text strong>
                                 {t("Общая стоимость товаров:")}
                             </Text>
-                            <Text>
+                            <Text strong>
                                 {fullPrice} {t("so'm")}
                             </Text>
                         </Flex>
-                        <Button block type={"primary"} onClick={dispatchOrder} loading={isLoading} disabled={!isEqual(branchesIsOpen,'true')}>
+                        <Button block type={"primary"} onClick={dispatchOrder} loading={isLoading} disabled={!branchesIsOpen}>
                             {t("Оформить заказ")}
                         </Button>
                     </Space>

@@ -15,7 +15,7 @@ const body = {
 }
 const ProductContainer = ({category,userId,lang}) => {
     const {t} = useTranslation();
-    const {orders, addToOrder,increment,decrement} = useStore();
+    const {orders,increment,decrement} = useStore();
     const navigate = useNavigate();
     const {data,isLoading} = useGetOneQuery({
         id: get(category,'id'),
@@ -28,13 +28,6 @@ const ProductContainer = ({category,userId,lang}) => {
         },
         enabled:!isNil(category)
     })
-    const onChange = (value,item) => {
-        let order = {
-            ...item,
-            count: value,
-        }
-        addToOrder(order)
-    }
     const getCountForItem = (itemId) => {
         const order = orders.find((order) => order.id === itemId);
         return order ? order.count : 0;
@@ -53,7 +46,7 @@ const ProductContainer = ({category,userId,lang}) => {
                             <Col xs={{span: 12}} sm={{span: 8}} key={index+1}>
                                 <Card
                                     hoverable
-                                    cover={<img src={get(item,'imageUrl')}/>}
+                                    cover={<img onClick={() => navigate(`/product/view/${userId}/${lang}/${item.id}`)} src={get(item,'imageUrl')}/>}
                                     styles={{body}}
                                 >
                                     <Title level={5}>{get(item,'name')}</Title>
@@ -62,7 +55,7 @@ const ProductContainer = ({category,userId,lang}) => {
                                         {" "} {t("so'm")} {!get(item,'oneVariation') && t("dan")}
                                     </Text>
                                     {
-                                        !orders?.some(order => isEqual(get(order,"id"),get(item,"id"))) ?
+                                        !orders?.some(order => isEqual(get(order,"variationId"),get(item,"variationId"))) || !get(item,'oneVariation') ?
                                             <Button
                                                 block
                                                 type={"primary"}
@@ -87,7 +80,6 @@ const ProductContainer = ({category,userId,lang}) => {
                                                     controls={false}
                                                     type={"number"}
                                                     style={{textAlign: "center",width: 50}}
-                                                    onChange={(e) => onChange(e.target.value,item)}
                                                 />
                                                 <Button
                                                     type={"primary"}

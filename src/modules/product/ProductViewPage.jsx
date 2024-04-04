@@ -4,7 +4,7 @@ import Container from "../../components/Container.jsx";
 import useGetOneQuery from "../../hooks/api/useGetOneQuery.js";
 import {KEYS} from "../../constants/key.js";
 import {URLS} from "../../constants/url.js";
-import {get, head, isEqual} from "lodash";
+import {get, head, isEqual, isNil} from "lodash";
 import {Button, Flex, Input, Radio, Space, Spin, theme, Typography} from "antd";
 import {ArrowLeftOutlined} from "@ant-design/icons";
 import {useTranslation} from "react-i18next";
@@ -35,6 +35,9 @@ const ProductViewPage = () => {
     useEffect(() => {
         const order = orders.find((order) => order.variationId === get(selected,'id'));
         setOrder(order)
+        if (isNil(order) && !isNil(selected)){
+            incrementProduct()
+        }
     }, [orders,selected]);
     const incrementProduct = () => {
         increment({
@@ -49,6 +52,7 @@ const ProductViewPage = () => {
     if (isLoading){
         return <Spin fullscreen/>
     }
+
     return (
         <Container>
             <Space direction={"vertical"} style={{width: "100%"}}>
@@ -67,10 +71,12 @@ const ProductViewPage = () => {
                     style={{width: "100%", objectFit: "cover"}}
                 />
                 <Title level={4}>{get(product, 'name')}</Title>
-
+                <Text>{get(product,'description')}</Text>
                 <Radio.Group
                     style={{display: "flex", flexDirection: "column", paddingBottom: 70}}
-                    onChange={(e) => setSelected(head(headData?.filter(data => isEqual(get(data,"id"),get(e,'target.value')))))}
+                    onChange={(e) => {
+                        setSelected(head(headData?.filter(data => isEqual(get(data, "id"), get(e, 'target.value')))));
+                    }}
                 >
                     <Space direction={"vertical"} style={{width: "100%"}} size={"middle"}>
                         {
@@ -87,23 +93,23 @@ const ProductViewPage = () => {
                         }
                     </Space>
                 </Radio.Group>
-                {
-                    selected && (
-                        <div style={{
-                            position: "fixed",
-                            bottom: 0,
-                            left: 0,
-                            padding: "7px 15px",
-                            width: "100%",
-                            backgroundColor: colorBorder
-                        }}>
-                            <Space direction={"vertical"} style={{width: "100%"}}>
-                                <Flex justify={"space-between"} align={"center"}>
-                                    <Text>
-                                        {get(selected, 'name')}
-                                    </Text>
+                <div style={{
+                    position: "fixed",
+                    bottom: 0,
+                    left: 0,
+                    padding: "15px 10px 17px 10px",
+                    width: "100%",
+                    backgroundColor: colorBorder
+                }}>
+                    <Space direction={"vertical"} style={{width: "100%"}}>
+                        <Flex justify={"space-between"} align={"center"}>
+                            <Text strong>
+                                {selected ? get(selected, 'name') : t("Keraklisini tanlang")}
+                            </Text>
+                            {
+                                selected && (
                                     <Space>
-                                        <Text style={{marginRight: 5}}>
+                                        <Text style={{marginRight: 5}} strong>
                                             {order ? (get(order,'count') * get(order,'price')) : 0} {t("so'm")}
                                         </Text>
                                         <Button
@@ -126,11 +132,11 @@ const ProductViewPage = () => {
                                             +
                                         </Button>
                                     </Space>
-                                </Flex>
-                            </Space>
-                        </div>
-                    )
-                }
+                                )
+                            }
+                        </Flex>
+                    </Space>
+                </div>
             </Space>
         </Container>
     );

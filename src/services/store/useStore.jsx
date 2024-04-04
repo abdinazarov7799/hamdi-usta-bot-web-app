@@ -3,7 +3,7 @@ import {create} from "zustand";
 
 const useStore = create((set) =>({
     orders: [],
-    branchesIsOpen: "true",
+    branchesIsOpen: true,
     setBranchesIsOpen: (branchesIsOpen) => set({ branchesIsOpen }),
     setOrders: (orders) => set(state => {
         return {...state, orders}

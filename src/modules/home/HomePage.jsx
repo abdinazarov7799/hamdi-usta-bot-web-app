@@ -19,7 +19,7 @@ const HomePage = () => {
     const navigate = useNavigate();
     const {lang,userId} = useParams();
     const {branchesIsOpen,setBranchesIsOpen} = useStore();
-    const [isModalOpen, setIsModalOpen] = useState(!isEqual(branchesIsOpen,'true'));
+    const [isModalOpen, setIsModalOpen] = useState(!branchesIsOpen);
     const {data:categoriesData} = useGetAllQuery({
         key: KEYS.category_list,
         url: URLS.category_list,
@@ -44,7 +44,6 @@ const HomePage = () => {
     })
     useEffect(() => {
         setBranchesIsOpen(get(branchesIsActive,'data.data'));
-        setIsModalOpen(!isEqual(get(branchesIsActive,'data.data'),'true'))
     }, [get(branchesIsActive,'data')]);
     const changeLang = () => {
         localStorage.setItem('lang', lang);

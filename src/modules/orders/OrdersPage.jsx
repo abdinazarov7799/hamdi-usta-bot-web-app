@@ -70,27 +70,22 @@ const OrdersPage = () => {
                            get(selectedItem,'orderProducts',[])?.map((item) => {
                                return (
                                    <Col span={24} key={get(item,'id')} style={style}>
-                                       <Row>
-                                           <Col xs={{span: 7}} sm={{span: 5}}>
-                                               <Image
+                                       <Row justify={"space-between"}>
+                                           <Space>
+                                               <img
                                                    src={get(item,'variation.product.imageUrl')}
-                                                   preview={false}
                                                    width={90}
                                                    height={90}
                                                />
-                                           </Col>
-                                           <Col xs={{span: 10}} sm={{span: 12}}>
                                                <Space direction={"vertical"}>
                                                    <Title level={5}>{get(item,'variation.product.name')}</Title>
                                                    <Text>{get(item,'variation.name','')}</Text>
                                                </Space>
-                                           </Col>
-                                           <Col xs={{span: 5}} sm={{span: 7}} style={{textAlign: "right"}}>
-                                               <Space direction={"vertical"} size={"large"}>
-                                                   <Text>{get(item,'count')} {t("dona")}</Text>
-                                                   <Text>{get(item,'variation.price') * get(item,'count')} {t("so'm")}</Text>
-                                               </Space>
-                                           </Col>
+                                           </Space>
+                                           <Space direction={"vertical"} size={"large"}>
+                                               <Text>{get(item,'count')} {t("dona")}</Text>
+                                               <Text>{get(item,'variation.price') * get(item,'count')} {t("so'm")}</Text>
+                                           </Space>
                                        </Row>
                                    </Col>
                                )

@@ -15,6 +15,7 @@ const CustomTheme = {
     token: {
         colorPrimary: '#EC1B24',
         borderRadius: '5px',
+        fontSize: 16
     },
 }
 
