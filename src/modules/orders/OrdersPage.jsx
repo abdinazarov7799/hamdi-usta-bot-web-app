@@ -92,6 +92,13 @@ const OrdersPage = () => {
                            })
                        }
                    </Row>
+                   {
+                       get(selectedItem,'comment') && (
+                           <Text>
+                               <Text strong>{t("Comment")}</Text>: {get(selectedItem,'comment')}
+                           </Text>
+                       )
+                   }
                </Space>
             </Modal>
         </Container>
