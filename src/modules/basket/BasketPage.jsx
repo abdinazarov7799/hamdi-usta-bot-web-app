@@ -91,11 +91,11 @@ const BasketPage = () => {
                                                     <Space direction={"vertical"}>
                                                         <Title level={5}>{get(item,'name')}</Title>
                                                         <Text>{get(item,'variationName')}</Text>
-                                                        <Text>{get(item,'price')} {t("so'm")}</Text>
+                                                        <Text>{Intl.NumberFormat('en-US').format(get(item,'price'))} {t("so'm")}</Text>
                                                     </Space>
                                                 </Space>
-                                                <Space direction={"vertical"} size={"large"} style={{width: 120, textAlign: "end", justifyContent: "space-between", alignItems: "end"}}>
-                                                    <Text>{get(item,'price') * get(item,'count')} {t("so'm")}</Text>
+                                                <Space direction={"vertical"} style={{width: 120, justifyContent: "space-between", alignItems: "end"}}>
+                                                    <Text>{Intl.NumberFormat('en-US').format(get(item,'price') * get(item,'count'))} {t("so'm")}</Text>
                                                     <Flex>
                                                         <Button
                                                             type={"primary"}
@@ -133,7 +133,7 @@ const BasketPage = () => {
                                 {t("Общая стоимость товаров:")}
                             </Text>
                             <Text strong>
-                                {fullPrice} {t("so'm")}
+                                {Intl.NumberFormat('en-US').format(fullPrice)} {t("so'm")}
                             </Text>
                         </Flex>
                         <Button block type={"primary"} onClick={dispatchOrder} loading={isLoading} disabled={!branchesIsOpen}>

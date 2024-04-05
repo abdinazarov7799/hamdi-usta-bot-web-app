@@ -84,7 +84,7 @@ const OrdersPage = () => {
                                            </Space>
                                            <Space direction={"vertical"} size={"large"} style={{textAlign: "end", justifyContent: "center", alignItems: "end"}}>
                                                <Text>{get(item,'count')} {t("dona")}</Text>
-                                               <Text>{get(item,'variation.price') * get(item,'count')} {t("so'm")}</Text>
+                                               <Text>{Intl.NumberFormat('en-US').format(get(item,'variation.price') * get(item,'count'))} {t("so'm")}</Text>
                                            </Space>
                                        </Row>
                                    </Col>

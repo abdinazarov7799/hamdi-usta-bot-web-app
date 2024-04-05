@@ -38,7 +38,7 @@ const useStore = create((set) =>({
     decrement: (variationId) =>
         set((state) => {
             const existingOrderIndex = state.orders.findIndex((order) => order?.variationId === variationId);
-            if (existingOrderIndex !== -1 && state.orders[existingOrderIndex].count > 0) {
+            if (existingOrderIndex !== -1 && state.orders[existingOrderIndex].count > 1) {
                 const updatedOrders = [...state.orders];
                 updatedOrders[existingOrderIndex].count--;
                 return { ...state, orders: updatedOrders };

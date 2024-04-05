@@ -29,7 +29,7 @@ const Orders = ({data,setSelectedItem}) => {
                     <Text>{get(data,'createdAt')}</Text>
                 </Space>
                 <Space direction={"vertical"} style={{textAlign: "end"}}>
-                    <Text>{get(data,'price')} {t("so'm")}</Text>
+                    <Text>{Intl.NumberFormat('en-US').format(get(data,'price') )} {t("so'm")}</Text>
                     <Text type={getOrderType(get(data,'status'))}>{get(data,'status')}</Text>
                 </Space>
             </Row>

@@ -4,7 +4,7 @@ import Container from "../../components/Container.jsx";
 import useGetOneQuery from "../../hooks/api/useGetOneQuery.js";
 import {KEYS} from "../../constants/key.js";
 import {URLS} from "../../constants/url.js";
-import {get, head, isEqual, isNil} from "lodash";
+import {get, head, isEqual} from "lodash";
 import {Button, Flex, Input, Radio, Space, Spin, theme, Typography} from "antd";
 import {ArrowLeftOutlined} from "@ant-design/icons";
 import {useTranslation} from "react-i18next";
@@ -15,8 +15,8 @@ const ProductViewPage = () => {
     const navigate = useNavigate();
     const {t} = useTranslation();
     const [selected, setSelected] = useState();
-    const [order, setOrder] = useState(0);
-    const {decrement, increment, orders} = useStore();
+    const [count, setCount] = useState(1);
+    const {addToOrder} = useStore();
     const {
         token: { colorBorder },
     } = theme.useToken();
@@ -33,26 +33,23 @@ const ProductViewPage = () => {
     const headData = get(data,'data.data')
     const product = get(head(headData),'product');
     useEffect(() => {
-        const order = orders.find((order) => order.variationId === get(selected,'id'));
-        setOrder(order)
-        if (isNil(order) && !isNil(selected)){
-            incrementProduct()
-        }
-    }, [orders,selected]);
-    const incrementProduct = () => {
-        increment({
+        setCount(1)
+    }, [selected]);
+    const addToBasket = () => {
+        addToOrder({
             variationId: get(selected,'id'),
             variationName: get(selected,'name'),
             price: get(selected,'price'),
             id: get(selected,'product.id'),
             name: get(selected,'product.name'),
             imageUrl: get(selected,'product.imageUrl'),
+            count
         })
+        navigate(`/${userId}/${lang}`)
     }
     if (isLoading){
         return <Spin fullscreen/>
     }
-
     return (
         <Container>
             <Space direction={"vertical"} style={{width: "100%"}}>
@@ -87,7 +84,7 @@ const ProductViewPage = () => {
                                 >
                                     <Text>{get(item,'name')}</Text>
                                     <Text style={{margin: "0 10px"}}>{get(item,'measure')} {get(item,'measureUnit.name')}</Text>
-                                    <Text>{get(item,'price')} {t("so'm")}</Text>
+                                    <Text>{Intl.NumberFormat('en-US').format(get(item,'price'))} {t("so'm")}</Text>
                                 </Radio>
                             })
                         }
@@ -110,16 +107,16 @@ const ProductViewPage = () => {
                                 selected && (
                                     <Space>
                                         <Text style={{marginRight: 5}} strong>
-                                            {order ? (get(order,'count') * get(order,'price')) : 0} {t("so'm")}
+                                            {Intl.NumberFormat('en-US').format(count * get(selected,'price'))} {t("so'm")}
                                         </Text>
                                         <Button
                                             type={"primary"}
-                                            onClick={() => decrement(get(selected, 'id'))}
+                                            onClick={() => count > 1 && setCount(count-1)}
                                         >
                                             -
                                         </Button>
                                         <Input
-                                            value={order ? get(order,'count') : 0}
+                                            value={count}
                                             min={0}
                                             controls={false}
                                             type={"number"}
@@ -127,7 +124,7 @@ const ProductViewPage = () => {
                                         />
                                         <Button
                                             type={"primary"}
-                                            onClick={incrementProduct}
+                                            onClick={() => setCount(count+1)}
                                         >
                                             +
                                         </Button>
@@ -135,6 +132,9 @@ const ProductViewPage = () => {
                                 )
                             }
                         </Flex>
+                        {
+                            selected && <Button block type={"primary"} onClick={addToBasket}>{t("Savatga qo'shish")}</Button>
+                        }
                     </Space>
                 </div>
             </Space>
