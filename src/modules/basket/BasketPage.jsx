@@ -3,7 +3,7 @@ import Container from "../../components/Container.jsx";
 import {Alert, Button, Col, Empty, Flex, Image, Input, Row, Space, theme, Typography} from "antd";
 import {useTranslation} from "react-i18next";
 import {ArrowLeftOutlined, DeleteOutlined} from "@ant-design/icons";
-import {get, isEmpty, isEqual, isNil} from "lodash";
+import {get, isEmpty, isNil} from "lodash";
 import {useNavigate, useParams} from "react-router-dom";
 import useStore from "../../services/store/useStore.jsx";
 import usePostQuery from "../../hooks/api/usePostQuery.js";
@@ -28,9 +28,8 @@ const BasketPage = () => {
         })
         setFullPrice(price)
     }, [orders]);
-
     const dispatchOrder = () => {
-        if (!isNil(orders)){
+        if (!isNil(orders) && !isEmpty(orders)){
             mutate({
                     url: URLS.add_order,
                     attributes: orders,
