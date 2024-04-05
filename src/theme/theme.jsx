@@ -25,28 +25,29 @@ const GlobalStyles = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
     }
-
     body {
         overflow-x: hidden;
         max-width: 600px;
         margin: 0 auto;
         min-height: 100vh;
     }
-
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
-
     input[type=number] {
         -moz-appearance: textfield;
     }
-
     .active button {
         background-color: #bbb8b8;
         color: #fff;
         font-weight: 500;
+    }
+    .ant-card-cover{
+        margin-top: 0!important;
+        margin-inline-start: 0!important;
+        margin-inline-end: 0!important;
     }
 `
 const Theme = ({ children }) => {
