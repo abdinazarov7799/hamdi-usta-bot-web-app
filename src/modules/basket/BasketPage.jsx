@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Container from "../../components/Container.jsx";
 import {Alert, Button, Col, Empty, Flex, Image, Input, Row, Space, theme, Typography} from "antd";
 import {useTranslation} from "react-i18next";
-import {ArrowLeftOutlined} from "@ant-design/icons";
+import {ArrowLeftOutlined, DeleteOutlined} from "@ant-design/icons";
 import {get, isEmpty, isEqual, isNil} from "lodash";
 import {useNavigate, useParams} from "react-router-dom";
 import useStore from "../../services/store/useStore.jsx";
@@ -52,13 +52,20 @@ const BasketPage = () => {
     return (
         <Container>
             <Space direction={"vertical"} style={{width: "100%"}}>
-                <Flex>
+                <Flex justify={"space-between"}>
                     <Button
                         type={"primary"}
                         icon={<ArrowLeftOutlined />}
                         onClick={() => navigate(`/${userId}/${lang}`)}
                     >
                         {t("Back")}
+                    </Button>
+                    <Button
+                        type={"default"}
+                        icon={<DeleteOutlined />}
+                        onClick={() => setOrders([])}
+                    >
+                        {t("Delete basket")}
                     </Button>
                 </Flex>
                 {
@@ -72,7 +79,7 @@ const BasketPage = () => {
                             {
                                 orders?.map((item,index) => {
                                     return (
-                                        <Col span={24} key={index+1}>
+                                        <Col span={24} key={index+1} style={{boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px", borderRadius: 10,padding: "10px"}}>
                                             <Row justify={"space-between"}>
                                                 <Space>
                                                     <Image

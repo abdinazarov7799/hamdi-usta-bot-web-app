@@ -14,7 +14,7 @@ const AffixContainer = ({children,...rest}) => {
                     scrollbarWidth: "none",
                     borderRadius: 5,
                     backgroundColor: colorBgContainer,
-                    boxShadow: "rgba(0, 0, 0, 0.05) 0px 1px 2px 0px"
+                    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
                 }}>
                     {children}
                 </div>

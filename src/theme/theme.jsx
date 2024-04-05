@@ -45,6 +45,8 @@ const GlobalStyles = createGlobalStyle`
 
     .active button {
         background-color: #bbb8b8;
+        color: #fff;
+        font-weight: 500;
     }
 `
 const Theme = ({ children }) => {
