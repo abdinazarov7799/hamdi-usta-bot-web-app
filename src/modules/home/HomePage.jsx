@@ -128,8 +128,13 @@ const HomePage = () => {
                 </div>
             </Space>
             <FloatButton.Group>
-                <FloatButton type={"primary"} onClick={() => navigate(`/basket/${userId}/${lang}`)} icon={<ShoppingCartOutlined />} />
-                <FloatButton.BackTop />
+                <FloatButton
+                    type={"primary"}
+                    onClick={() => navigate(`/basket/${userId}/${lang}`)}
+                    icon={<ShoppingCartOutlined />}
+                    style={{transform: "scale(1.2)"}}
+                />
+                <FloatButton.BackTop style={{transform: "scale(1.2)"}}/>
             </FloatButton.Group>
         </Container>
     );
