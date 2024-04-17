@@ -132,9 +132,9 @@ const HomePage = () => {
                     type={"primary"}
                     onClick={() => navigate(`/basket/${userId}/${lang}`)}
                     icon={<ShoppingCartOutlined />}
-                    style={{transform: "scale(1.2)"}}
+                    style={{transform: "scale(1.4)"}}
                 />
-                <FloatButton.BackTop style={{transform: "scale(1.2)"}}/>
+                <FloatButton.BackTop style={{transform: "scale(1.4)"}}/>
             </FloatButton.Group>
         </Container>
     );
