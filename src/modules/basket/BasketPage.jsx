@@ -49,7 +49,7 @@ const BasketPage = () => {
                             onClose();
                         }else {
                             notification.error({
-                                message: `${t(get(head(get(data,'errors')),'errorMsg'))}  ${get(head(get(data,'errors')),'fieldValue')}`
+                                message: `${t(get(head(get(data,'errors')),'errorMsg'))}  ${get(head(get(data,'errors')),'fieldValue')} ${t("so'm")}`
                             })
                         }
                     }
