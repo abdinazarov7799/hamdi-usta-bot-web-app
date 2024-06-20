@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Carousel, Col, Row, Space, Typography, FloatButton, Button, Modal} from "antd";
+import {Carousel, Space, Typography, FloatButton, Button, Modal} from "antd";
 import Container from "../../components/Container.jsx";
 import useGetAllQuery from "../../hooks/api/useGetAllQuery.js";
 import {KEYS} from "../../constants/key.js";
 import {URLS} from "../../constants/url.js";
-import {get, isEqual} from "lodash";
+import {get} from "lodash";
 import {useTranslation} from "react-i18next";
 import ProductContainer from "./components/ProductContainer.jsx";
 import {useNavigate, useParams} from "react-router-dom";
@@ -19,7 +19,7 @@ const HomePage = () => {
     const navigate = useNavigate();
     const {lang,userId} = useParams();
     const {branchesIsOpen,setBranchesIsOpen,botWorked,setBotWorked} = useStore();
-    const [isModalOpen, setIsModalOpen] = useState(!branchesIsOpen || !botWorked);
+    const [isModalOpen, setIsModalOpen] = useState((!branchesIsOpen || !botWorked));
     const {data:categoriesData} = useGetAllQuery({
         key: KEYS.category_list,
         url: URLS.category_list,
@@ -46,6 +46,7 @@ const HomePage = () => {
     useEffect(() => {
         setBranchesIsOpen(get(data,'data.data.branchActive'));
         setBotWorked(get(data,'data.data.botWorking'));
+        setIsModalOpen((!branchesIsOpen || !botWorked))
     }, [data]);
 
     const changeLang = () => {

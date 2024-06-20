@@ -9,12 +9,14 @@ import useStore from "../../services/store/useStore.jsx";
 import usePostQuery from "../../hooks/api/usePostQuery.js";
 import {URLS} from "../../constants/url.js";
 import {useTelegram} from "../../hooks/useTelegram.jsx";
+import useGetAllQuery from "../../hooks/api/useGetAllQuery.js";
+import {KEYS} from "../../constants/key.js";
 const {Title,Text} = Typography;
 const BasketPage = () => {
     const {
         token: { colorBorder },
     } = theme.useToken();
-    const {orders,setOrders,increment, decrement,branchesIsOpen,botWorked} = useStore();
+    const {orders,setOrders,increment, decrement,branchesIsOpen,setBranchesIsOpen,botWorked,setBotWorked} = useStore();
     const {t} = useTranslation()
     const navigate = useNavigate()
     const {userId,lang} = useParams()
@@ -22,6 +24,14 @@ const BasketPage = () => {
     const {mutate,isLoading} = usePostQuery({
         hideSuccessToast: true
     })
+    const {data} = useGetAllQuery({
+        key: KEYS.get_branch_active,
+        url: URLS.get_branch_active,
+    })
+    useEffect(() => {
+        setBranchesIsOpen(get(data,'data.data.branchActive'));
+        setBotWorked(get(data,'data.data.botWorking'));
+    }, [data]);
     const {onClose} = useTelegram();
     useEffect(() => {
         let price = 0
