@@ -66,8 +66,8 @@ const HomePage = () => {
             <Space style={{width: "100%"}} direction={"vertical"}>
                 <Carousel autoplay>
                     {
-                        get(bannerData, 'data.data')?.map((item) => (
-                            const isVideo = get(item, 'imageUrl').endsWith('.mp4');
+        get(bannerData, 'data.data')?.map((item) => {
+            const isVideo = get(item, 'imageUrl').endsWith('.mp4'); 
             return (
                 <div key={get(item, 'id')}>
                     {isVideo ? (
@@ -93,8 +93,8 @@ const HomePage = () => {
                     )}
                 </div>
             );
-                        ))
-                    }
+        })
+    }
                 </Carousel>
                 <AffixContainer>
                     <Space>
