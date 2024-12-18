@@ -67,15 +67,32 @@ const HomePage = () => {
                 <Carousel autoplay>
                     {
                         get(bannerData, 'data.data')?.map((item) => (
-                            <div key={get(item,'id')}>
-                                <div style={{
-                                    height: 200,
-                                    backgroundImage: `url(${get(item, 'imageUrl')})`,
-                                    backgroundPosition: "center center",
-                                    backgroundSize: "cover",
-                                }}>
-                                </div>
-                            </div>
+                            const isVideo = get(item, 'imageUrl').endsWith('.mp4');
+            return (
+                <div key={get(item, 'id')}>
+                    {isVideo ? (
+                        <video
+                            style={{
+                                height: 200,
+                                width: "100%",
+                                objectFit: "cover",
+                            }}
+                            src={get(item, 'imageUrl')}
+                            autoPlay
+                            muted
+                            loop
+                        />
+                    ) : (
+                        <div style={{
+                            height: 200,
+                            backgroundImage: `url(${get(item, 'imageUrl')})`,
+                            backgroundPosition: "center center",
+                            backgroundSize: "cover",
+                        }}>
+                        </div>
+                    )}
+                </div>
+            );
                         ))
                     }
                 </Carousel>
