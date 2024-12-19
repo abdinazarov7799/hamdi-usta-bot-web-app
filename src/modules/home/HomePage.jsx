@@ -64,7 +64,7 @@ const HomePage = () => {
                 </Text>
             </Modal>
             <Space style={{width: "100%"}} direction={"vertical"}>
-                <Carousel autoplay autoplaySpeed={8000}>
+                <Carousel autoplay autoplaySpeed={10000}>
                     {
         get(bannerData, 'data.data')?.map((item) => {
             const isVideo = get(item, 'imageUrl').endsWith('.mp4'); 
