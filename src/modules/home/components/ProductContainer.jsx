@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import useGetOneQuery from "../../../hooks/api/useGetOneQuery.js";
 import {URLS} from "../../../constants/url.js";
 import {KEYS} from "../../../constants/key.js";
@@ -6,7 +6,7 @@ import {get, isArray,isEqual, isNil} from "lodash";
 import {Button, Card, Col, Flex, Input, Row, Spin, Typography} from "antd";
 import {useTranslation} from "react-i18next";
 import useStore from "../../../services/store/useStore.jsx";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {Element} from "react-scroll"
 const {Title,Text} = Typography;
 
@@ -17,6 +17,8 @@ const ProductContainer = ({category,userId,lang}) => {
     const {t} = useTranslation();
     const {orders,increment,decrement} = useStore();
     const navigate = useNavigate();
+    const location = useLocation();
+
     const {data,isLoading} = useGetOneQuery({
         id: get(category,'id'),
         url: URLS.get_product,
@@ -28,6 +30,15 @@ const ProductContainer = ({category,userId,lang}) => {
         },
         enabled:!isNil(category)
     })
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const scrollPosition = params.get('scroll');
+        if (scrollPosition) {
+            window.scrollTo(0, parseInt(scrollPosition, 10));
+        }
+    }, [location.search]);
+
     const getCountForItem = (itemId) => {
         const order = orders.find((order) => order.id === itemId);
         return order ? order.count : 0;
@@ -35,6 +46,11 @@ const ProductContainer = ({category,userId,lang}) => {
     if (isLoading) {
         return <Flex justify={"center"} style={{marginTop: 10}}><Spin /></Flex>
     }
+
+    const navigateToProduct = (productId) => {
+        const scrollPosition = window.scrollY;
+        navigate(`/product/view/${userId}/${lang}/${productId}?scroll=${scrollPosition}`);
+    };
 
     return (
         <Element name={get(category,'name')} style={{marginBottom: 20}} className="element">
@@ -46,7 +62,7 @@ const ProductContainer = ({category,userId,lang}) => {
                             <Col xs={{span: 12}} sm={{span: 8}} key={index+1}>
                                 <Card
                                     hoverable
-                                    cover={<img onClick={() => navigate(`/product/view/${userId}/${lang}/${item.id}`)} src={get(item,'imageUrl')}/>}
+                                    cover={<img onClick={() => navigateToProduct(get(item,'id'))} src={get(item,'imageUrl')}/>}
                                     styles={{body}}
                                 >
                                     <Title level={5} ellipsis>{get(item,'name')}</Title>
