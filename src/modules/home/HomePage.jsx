@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Carousel, Space, Typography, FloatButton, Button, Modal} from "antd";
+import {Carousel, Space, Typography, FloatButton, Button, Modal, Spin} from "antd";
 import Container from "../../components/Container.jsx";
 import useGetAllQuery from "../../hooks/api/useGetAllQuery.js";
 import {KEYS} from "../../constants/key.js";
@@ -18,11 +18,12 @@ const HomePage = () => {
     const {t,i18n} = useTranslation();
     const navigate = useNavigate();
     const {lang,userId} = useParams();
-    const {branchesIsOpen,setBranchesIsOpen,botWorked,setBotWorked} = useStore();
+    const {setBranchesIsOpen,setBotWorked} = useStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const {data:categoriesData} = useGetAllQuery({
-        key: KEYS.category_list,
-        url: URLS.category_list,
+
+    const {data:categoriesData,isLoading} = useGetAllQuery({
+        key: KEYS.product_list,
+        url: URLS.product_list,
         params: {
             params: {
                 user_id: userId,
@@ -56,6 +57,19 @@ const HomePage = () => {
     useEffect(() => {
         changeLang();
     }, []);
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const scrollPosition = params.get('scroll');
+        if (scrollPosition) {
+            window.scrollTo(0, parseInt(scrollPosition, 10));
+        }
+    }, [location.search]);
+
+    if (isLoading) {
+        return <Spin fullscreen/>;
+    }
+
     return (
         <Container>
             <Modal title={t("Ma'lumot")} open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
@@ -66,49 +80,49 @@ const HomePage = () => {
             <Space style={{width: "100%"}} direction={"vertical"}>
                 <Carousel autoplay autoplaySpeed={10000}>
                     {
-        get(bannerData, 'data.data')?.map((item) => {
-            const isVideo = get(item, 'imageUrl').endsWith('.mp4'); 
-            return (
-                <div key={get(item, 'id')}>
-                    {isVideo ? (
-                        <video
-                            style={{
-                                height: 200,
-                                width: "100%",
-                                objectFit: "cover",
-                            }}
-                            src={get(item, 'imageUrl')}
-                            autoPlay
-                            muted
-                            loop
-                        />
-                    ) : (
-                        <div style={{
-                            height: 200,
-                            backgroundImage: `url(${get(item, 'imageUrl')})`,
-                            backgroundPosition: "center center",
-                            backgroundSize: "cover",
-                        }}>
-                        </div>
-                    )}
-                </div>
-            );
-        })
-    }
+                        get(bannerData, 'data.data')?.map((item) => {
+                            const isVideo = get(item, 'imageUrl')?.endsWith('.mp4');
+                            return (
+                                <div key={get(item, 'id')}>
+                                    {isVideo ? (
+                                        <video
+                                            style={{
+                                                height: 200,
+                                                width: "100%",
+                                                objectFit: "cover",
+                                            }}
+                                            src={get(item, 'imageUrl')}
+                                            autoPlay
+                                            muted
+                                            loop
+                                        />
+                                    ) : (
+                                        <div style={{
+                                            height: 200,
+                                            backgroundImage: `url(${get(item, 'imageUrl')})`,
+                                            backgroundPosition: "center center",
+                                            backgroundSize: "cover",
+                                        }}>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })
+                    }
                 </Carousel>
                 <AffixContainer>
                     <Space>
                         {
                             get(categoriesData,'data.data')?.map((item) => (
                                 <Link
-                                    key={get(item,'id')}
+                                    key={get(item,'categoryId')}
                                     activeClass="active"
-                                    to={get(item,'name')}
+                                    to={get(item,'categoryName')}
                                     smooth
                                     spy
                                     offset={-50}
                                 >
-                                    <Button type={"text"}>{get(item,'name')}</Button>
+                                    <Button type={"text"}>{get(item,'categoryName')}</Button>
                                 </Link>
                             ))
                         }
@@ -117,7 +131,7 @@ const HomePage = () => {
                 <div>
                     {
                         get(categoriesData,'data.data',[])?.map((item) => {
-                            return <ProductContainer category={item} key={get(item,'id')} userId={userId} lang={lang}/>
+                            return <ProductContainer category={item} key={get(item,'categoryId')} userId={userId} lang={lang}/>
                         })
                     }
                 </div>

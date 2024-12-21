@@ -1,12 +1,9 @@
-import React, {useEffect} from 'react';
-import useGetOneQuery from "../../../hooks/api/useGetOneQuery.js";
-import {URLS} from "../../../constants/url.js";
-import {KEYS} from "../../../constants/key.js";
-import {get, isArray,isEqual, isNil} from "lodash";
-import {Button, Card, Col, Flex, Input, Row, Spin, Typography} from "antd";
+import React from 'react';
+import {get,isEqual} from "lodash";
+import {Button, Card, Col, Flex, Input, Row, Typography} from "antd";
 import {useTranslation} from "react-i18next";
 import useStore from "../../../services/store/useStore.jsx";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {Element} from "react-scroll"
 const {Title,Text} = Typography;
 
@@ -17,35 +14,11 @@ const ProductContainer = ({category,userId,lang}) => {
     const {t} = useTranslation();
     const {orders,increment,decrement} = useStore();
     const navigate = useNavigate();
-    const location = useLocation();
-
-    const {data,isLoading} = useGetOneQuery({
-        id: get(category,'id'),
-        url: URLS.get_product,
-        key: `${KEYS.get_product}_${get(category,'id')}`,
-        params: {
-            params: {
-                user_id: userId
-            }
-        },
-        enabled:!isNil(category)
-    })
-
-    useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        const scrollPosition = params.get('scroll');
-        if (scrollPosition) {
-            window.scrollTo(0, parseInt(scrollPosition, 10));
-        }
-    }, [location.search]);
 
     const getCountForItem = (itemId) => {
         const order = orders.find((order) => order.id === itemId);
         return order ? order.count : 0;
     };
-    if (isLoading) {
-        return <Flex justify={"center"} style={{marginTop: 10}}><Spin /></Flex>
-    }
 
     const navigateToProduct = (productId) => {
         const scrollPosition = window.scrollY;
@@ -53,13 +26,13 @@ const ProductContainer = ({category,userId,lang}) => {
     };
 
     return (
-        <Element name={get(category,'name')} style={{marginBottom: 20}} className="element">
-            <Title level={4}>{get(category,'name')}</Title>
+        <Element name={get(category,'categoryName')} style={{marginBottom: 20}} className="element">
+            <Title level={4}>{get(category,'categoryName')}</Title>
             <Row gutter={[10,15]}>
                 {
-                    isArray(get(data,'data.data')) && get(data,'data.data',[])?.map((item,index) => {
+                    get(category,'products',[])?.map((item) => {
                         return (
-                            <Col xs={{span: 12}} sm={{span: 8}} key={index+1}>
+                            <Col xs={{span: 12}} sm={{span: 8}} key={get(item,'id')}>
                                 <Card
                                     hoverable
                                     cover={<img onClick={() => navigateToProduct(get(item,'id'))} src={get(item,'imageUrl')}/>}

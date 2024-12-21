@@ -4,5 +4,6 @@ export const KEYS = {
     get_product: "get_product",
     get_variation: "get_variation",
     get_all_order: "get_all_order",
-    get_branch_active: "get_branch_active"
+    get_branch_active: "get_branch_active",
+    product_list: "product_list"
 }
